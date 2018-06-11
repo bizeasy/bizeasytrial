@@ -1,0 +1,1721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
+
+    <screen name="main">
+        <section>
+            <actions>
+                <set field="headerItem" value="main"/><!-- this highlights the selected menu-item with name "main" -->
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    
+    
+    <screen name="CreateSalesOrder">
+		<section>
+			<actions>
+				<set field="titleProperty" value="Order Entry" />
+				<set field="tabButtonItem" value="SalesOrder" />
+				<set field="tabButtonItem2" value="CreateSalesOrder"/>
+				<script location="component://orderfulfillment/groovyScripts/salesOrder/SalesOrderSearch.groovy"/>
+			</actions>
+			<widgets>
+				<decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+					<decorator-section name="body">
+						<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="SalesOrderTabBar"/>
+						<section>
+							<widgets>
+								<section>
+									<widgets>
+										<platform-specific>
+											<html>
+												<html-template
+													location="component://orderfulfillment/template/salesOrder/SaleOrderInputForm.ftl" />
+											</html>
+										</platform-specific>
+									</widgets>
+								</section>
+							</widgets>
+						</section>
+					</decorator-section>
+				</decorator-screen>
+			</widgets>
+		</section>
+	</screen>
+    <screen name="ViewFacilityInventoryByProd">
+        <section>
+            <actions>
+                <set field="tabButtonItem" value="WareHouseManagement"/>
+                <set field="tabButtonItem2" value="ViewFacilityInventoryByProd"/>
+                <set field="viewSize" from-field="parameters.VIEW_SIZE_1" type="Integer" default-value="20"/>
+                <set field="viewIndex" from-field="parameters.VIEW_INDEX_1" type="Integer" default-value="0"/>
+                <!-- This is the target of the search form-->
+                <set field="facilityInventoryByProductScreen" value="ViewFacilityInventoryByProd"/>
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                <set field="productTypeId" from-field="parameters.productTypeId"/>
+                <set field="searchInProductCategoryId" from-field="parameters.searchInProductCategoryId"/>
+                <set field="productSupplierId" from-field="parameters.productSupplierId"/>
+                <set field="offsetQOHQty" from-field="parameters.offsetQOHQty"/>
+                <set field="offsetATPQty" from-field="parameters.offsetATPQty"/>
+                <set field="productsSoldThruTimestamp" from-field="parameters.productsSoldThruTimestamp" type="Timestamp"/>
+                <set field="internalName" from-field="parameters.internalName"/>
+                <set field="productId" from-field="parameters.productId"/>
+                <set field="statusId" from-field="parameters.statusId"/>
+                <entity-and list="productStoreGrpMmber" entity-name="ProductStoreGroupMember">
+                 <field-map field-name="productStoreGroupId" value="LOGISTICS_CLIENTS"/>
+                </entity-and>
+                <set field="productStoreIds" value="${groovy:return org.apache.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(productStoreGrpMmber, &quot;productStoreId&quot;, true)}" type="List" />
+                <entity-condition list="productStores" entity-name="ProductStore">
+                   <condition-expr field-name="productStoreId" operator="in" from-field="productStoreIds"/>
+                </entity-condition>
+                <entity-and list="prodStoreFacs" entity-name="ProductStoreFacility">
+                   <field-map field-name="productStoreId" from-field="parameters.productStoreId"/>
+                </entity-and>
+                <set field="facilityIdsList" value="${groovy:return org.apache.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(prodStoreFacs, &quot;facilityId&quot;, true)}" type="List" />
+                <script location="component://orderfulfillment/groovyScripts/facility/facility/ViewFacilityInventoryByProduct.groovy"/>
+                <entity-one entity-name="Facility" value-field="facility"/>
+                
+                <set field="title" value="Find Facility Inventory Items"/>
+            </actions>
+            <widgets>
+               <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="WareHouseManagementTabBar"/>
+                        <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                            <decorator-section name="search-options">
+                                <include-form name="FindFacilityInventoryByProd" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                            </decorator-section>
+                            <decorator-section name="search-results">
+                                <include-form name="ListFacilityInventoryByProd" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                            </decorator-section>
+                        </decorator-screen>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="WareHouseManagement">
+        <section>
+            <actions>
+                <set field="tabButtonItem" value="WareHouseManagement"/>
+                <set field="tabButtonItem2" value="WareHouseManagement"/>
+                <set field="viewSize" from-field="parameters.VIEW_SIZE_1" type="Integer" default-value="20"/>
+                <set field="viewIndex" from-field="parameters.VIEW_INDEX_1" type="Integer" default-value="0"/>
+                <!-- This is the target of the search form-->
+                <set field="offsetQOHQty" from-field="parameters.offsetQOHQty"/>
+                <set field="offsetATPQty" from-field="parameters.offsetATPQty"/>
+                <set field="searchInProductCategoryId" from-field="parameters.searchInProductCategoryId"/>
+                <set field="productsSoldThruTimestamp" from-field="parameters.productsSoldThruTimestamp" type="Timestamp"/>
+                <set field="internalName" from-field="parameters.internalName"/>
+                <set field="productId" from-field="parameters.productId"/>
+                <set field="statusId" from-field="parameters.statusId"/>
+                <set field="locatedAtLocationSeqId" from-field="parameters.locatedAtLocationSeqId"/>
+                <set field="productSupplierId" from-field="parameters.productSupplierId"/>
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                <set field="productTypeId" from-field="parameters.productTypeId"/>
+                <script location="component://orderfulfillment/groovyScripts/facility/facility/ViewFacilityInventoryByLocation.groovy"/>
+                <set field="title" value="Find Location And Product Inventory"/>
+            </actions>
+            <widgets>
+               <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="WareHouseManagementTabBar"/>
+                        <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                            <decorator-section name="search-options">
+                                <include-form name="WareHouseManagement" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                            </decorator-section>
+                            <decorator-section name="search-results">
+                                <include-form name="ListFacilityInventoryByLocation" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                            </decorator-section>
+                        </decorator-screen>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="ReceiveInventory">
+        <section>
+            <actions>
+                <set field="tabButtonItem" value="WareHouseManagement"/>
+                <set field="tabButtonItem2" value="ReceiveInventory"/>
+                <script location="component://orderfulfillment/groovyScripts/facility/inventory/ReceiveInventory.groovy"/>
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                <set field="productStoreId" from-field="parameters.productStoreId"/>
+                <entity-one entity-name="Facility" value-field="facility"/>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
+                <set field="title" value="Receive Inventory"/>
+                <entity-and list="productStoreGrpMmber" entity-name="ProductStoreGroupMember">
+                 <field-map field-name="productStoreGroupId" value="LOGISTICS_CLIENTS"/>
+                </entity-and>
+                <set field="productStoreIds" value="${groovy:return org.apache.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(productStoreGrpMmber, &quot;productStoreId&quot;, true)}" type="List" />
+                <entity-condition list="productStores" entity-name="ProductStore">
+                   <condition-expr field-name="productStoreId" operator="in" from-field="productStoreIds"/>
+                </entity-condition>
+                <entity-and list="facilityList" entity-name="Facility">
+                	<field-map field-name="facilityTypeId" value="WAREHOUSE"/>
+                </entity-and>
+                <set field="layoutSettings.javaScripts[+0]" value="/ordermgr-js/ConvertUom.js" global="true"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="WareHouseManagementTabBar"/>
+	                    <screenlet title="Receive Inventory"  >
+	                    		<container  >
+	                        		<platform-specific>
+	                            		<html><html-template location="component://orderfulfillment/template/inventory/ReceiveInventory.ftl"/></html>
+	                        		</platform-specific>
+	                    		</container> 
+	                    </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    
+    <screen name="FindSalesOrder">
+        <section>
+            <actions>
+				<set field="titleProperty" value="Sales Order Search" />
+				<set field="tabButtonItem" value="SalesOrder"/>
+				<set field="tabButtonItem2" value="SalesOrder"/>
+				<set field="viewSize" from-field="parameters.VIEW_SIZE" />
+				<set field="defaultEffectiveDateTime"
+					value="${bsh:org.apache.ofbiz.base.util.UtilDateTime.getDayStart(org.ofbiz.base.util.UtilDateTime.nowTimestamp())}" />
+				<set field="defaultEffectiveDate"
+					value="${groovy:org.apache.ofbiz.base.util.UtilDateTime.toDateString(defaultEffectiveDateTime, &quot;dd MMMMM, yyyy&quot;);}" />
+				<set field="shipmentTypeId" from-field="parameters.shipmentTypeId" />
+				<set field="salesChannelEnumId" from-field="parameters.salesChannelEnumId" />
+				<set field="parameters.orderTypeId" value="SALES_ORDER" />
+				<!-- <script location="component://orderfulfillment/template/salesOrder/ListSalesOrderSearchResults.groovy" /> -->
+				<!-- <service service-name="performFind" result-map="result" result-map-list="listIt">
+	                <field-map field-name="inputFields" from-field="parameters"/>
+	                <field-map field-name="entityName" value="OrderHeader"/>
+	                <field-map field-name="viewIndex" from-field="viewIndex"/>
+	                <field-map field-name="viewSize" from-field="viewSize"/>
+	            </service> -->
+			</actions>
+            <widgets>
+                 <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+						 <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="SalesOrderTabBar"/>
+						 <section>
+                            <widgets>
+                                <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                                    <decorator-section name="menu-bar">
+                                    	 
+                                    </decorator-section>
+                                    <decorator-section name="search-options">
+                                        <include-form name="FindSalesOrders" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                    <decorator-section name="search-results">
+            							<screenlet title="Orders List"> 
+                                        	<include-form name="listSalesOrders" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml" />
+                                        </screenlet>
+                                    </decorator-section>
+                                   
+                                </decorator-screen>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen> 
+    
+    <screen name="CreatePurchaseOrderScreen">
+		<section>
+			<actions>
+				<set field="titleProperty" value="Order Entry" />
+				<set field="tabButtonItem" value="PurchaseOrder"/>
+				<set field="tabButtonItem2" value="CreatePurchaseOrder"/>
+				<script location="component://orderfulfillment/groovyScripts/salesOrder/SalesOrderSearch.groovy"/>
+			</actions>
+			<widgets>
+				<decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+					<decorator-section name="body">
+						<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="PurchaseOrderTabBar"/>
+						<section>
+							<widgets>
+								<section>
+									<widgets>
+										<platform-specific>
+											<html>
+												<html-template
+													location="component://orderfulfillment/template/purchaseOrder/PurchaseOrderInputForm.ftl" />
+											</html>
+										</platform-specific>
+									</widgets>
+								</section>
+							</widgets>
+						</section>
+					</decorator-section>
+				</decorator-screen>
+			</widgets>
+		</section>
+	</screen>
+
+	<screen name="FindPurchaseOrders">
+        <section>
+            <actions>
+				<set field="titleProperty" value="Process Depot Orders" />
+				<set field="tabButtonItem" value="PurchaseOrder"/>
+				<set field="tabButtonItem2" value="PurchaseOrder"/>
+				<set field="viewSize" from-field="parameters.VIEW_SIZE" />
+				<set field="defaultEffectiveDateTime"
+					value="${bsh:org.apache.ofbiz.base.util.UtilDateTime.getDayStart(org.ofbiz.base.util.UtilDateTime.nowTimestamp())}" />
+				<set field="defaultEffectiveDate"
+					value="${groovy:org.apache.ofbiz.base.util.UtilDateTime.toDateString(defaultEffectiveDateTime, &quot;dd MMMMM, yyyy&quot;);}" />
+				<set field="shipmentTypeId" from-field="parameters.shipmentTypeId" />
+				<set field="salesChannelEnumId" from-field="parameters.salesChannelEnumId" />
+				<set field="parameters.orderTypeId" value="PURCHASE_ORDER" />
+				<script location="component://orderfulfillment/template/salesOrder/ListSalesOrderSearchResults.groovy" />
+			</actions>
+            <widgets>
+                 <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+	                    <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="PurchaseOrderTabBar"/>
+						<section>
+                            <widgets>
+                                <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                                    <decorator-section name="menu-bar">
+                                    	 
+                                    </decorator-section>
+                                    <decorator-section name="search-options">
+                                        <include-form name="FindPurchaseOrders" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                    <decorator-section name="search-results">
+            							<screenlet title="Orders List"> 
+                                        	<include-form name="listPurchaseOrders" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml" />
+                                        </screenlet>
+                                    </decorator-section>
+                                   
+                                </decorator-screen>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen> 
+    
+    <!-- Pick Lists -->
+    
+    <screen name="PicklistOptions">
+        <section>
+            <actions>
+                <set field="titleProperty" value="Pick List Options"/>
+                <set field="headerItem" value="PickListOptions"/>
+                <set field="tabButtonItem" value="PickList"/>
+                <set field="tabButtonItem2" value="PickListOptions"/>
+
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                <set field="groupByShippingMethod" from-field="parameters.groupByShippingMethod"/>
+                <set field="groupByWarehouseArea" from-field="parameters.groupByWarehouseArea"/>
+                <set field="groupByNoOfOrderItems" value="Y"/>
+                <set field="maxNumberOfOrders" from-field="parameters.maxNumberOfOrders" default-value="50"/>
+                <service service-name="findOrdersToPickMove">
+                    <field-map field-name="facilityId"/>
+                    <field-map field-name="groupByShippingMethod"/>
+                    <field-map field-name="groupByWarehouseArea"/>
+                    <field-map field-name="groupByNoOfOrderItems"/>
+                    <field-map field-name="maxNumberOfOrders"/>
+                </service>
+
+                <entity-condition entity-name="Picklist" list="picklistActiveList">
+                    <condition-list combine="and">
+                        <condition-expr field-name="facilityId" operator="equals" from-field="parameters.facilityId"/>
+                        <condition-expr field-name="statusId" operator="not-equals" value="PICKLIST_PICKED"/>
+                        <condition-expr field-name="statusId" operator="not-equals" value="PICKLIST_PACKED"/>
+                        <condition-expr field-name="statusId" operator="not-equals" value="PICKLIST_CANCELLED"/>
+                    </condition-list>
+                    <order-by field-name="picklistDate"/>
+                </entity-condition>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="PickListTabBar"/>
+                        <platform-specific>
+                            <html><html-template location="component://orderfulfillment/template/pickList/PicklistOptions.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    
+    <screen name="PicklistManage">
+        <section>
+            <actions>
+                <set field="titleProperty" value="Manage Pick List"/>
+                <set field="headerItem" value="PicklistManage"/>
+                <set field="tabButtonItem" value="PickList"/>
+                <set field="tabButtonItem2" value="PicklistManage"/>
+
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                <set field="viewIndex" from-field="parameters.viewIndex" default-value="0"/>
+                <set field="viewSize" from-field="parameters.viewSize" default-value="10"/>
+                <service service-name="getPicklistDisplayInfo">
+                    <field-map field-name="facilityId"/>
+                </service>
+
+                <entity-condition entity-name="PartyRoleAndPartyDetail" list="partyRoleAndPartyDetailList" use-cache="true">
+                    <condition-expr field-name="roleTypeId" value="PICKER"/>
+                </entity-condition>
+                <entity-condition entity-name="Picklist" list="picklistActiveList">
+                    <condition-list combine="and">
+                        <condition-expr field-name="facilityId" operator="equals" from-field="parameters.facilityId"/>
+                        <condition-expr field-name="statusId" operator="not-equals" value="PICKLIST_PICKED"/>
+                        <condition-expr field-name="statusId" operator="not-equals" value="PICKLIST_PACKED"/>
+                        <condition-expr field-name="statusId" operator="not-equals" value="PICKLIST_CANCELLED"/>
+                    </condition-list>
+                    <order-by field-name="picklistDate"/>
+                </entity-condition>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="PickListTabBar"/>
+                        <platform-specific>
+                            <html><html-template location="component://product/template/facility/PicklistManage.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="VerifyPick">
+        <section>
+            <actions>
+                <property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
+                <set field="titleProperty" value="ProductVerifyPick"/>
+                <set field="headerItem" value="VerifyPick"/>
+                <set field="tabButtonItem" value="PickList"/>
+                <set field="tabButtonItem2" value="VerifyPick"/>
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                
+                <script location="component://orderfulfillment/groovyScripts/pickList/VerifyPick.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="PickListTabBar"/>
+                        <platform-specific>
+                            <html><html-template location="component://orderfulfillment/template/pickList/VerifyPick.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="FindFacilityTransfers">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitleFindFacilityTransfers"/>
+                <set field="tabButtonItem" value="WareHouseManagement"/>
+                <set field="tabButtonItem2" value="FindFacilityTransfers"/>
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                <entity-one entity-name="Facility" value-field="facility"/>
+                <script location="component://orderfulfillment/groovyScripts/facility/facility/FindFacilityTransfers.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="WareHouseManagementTabBar"/>
+                        <container>
+                            <label style="h3">${uiLabelMap.CommonView} </label>
+                            <link target="FindFacilityTransfers" text="${uiLabelMap.ProductActiveOnly}" style="buttontext">
+                                <parameter param-name="facilityId" from-field="facilityId"/>
+                                <parameter param-name="activeOnly" value="true"/>
+                            </link>
+                            <link target="FindFacilityTransfers" text="${uiLabelMap.CommonAll}" style="buttontext">
+                                <parameter param-name="facilityId" from-field="facilityId"/>
+                                <parameter param-name="activeOnly" value="false"/>
+                            </link>
+                        </container>
+                        <container>
+                            <link target="FindFacilityTransfers" text="${uiLabelMap.ProductCompleteRequestedTransfers}" style="buttontext">
+                                <parameter param-name="facilityId" from-field="facilityId"/>
+                                <parameter param-name="completeRequested" value="true"/>
+                            </link>
+                            <link target="TransferInventoryItem" text="${uiLabelMap.ProductInventoryTransfer}" style="buttontext">
+                                <parameter param-name="facilityId" from-field="facilityId"/>
+                            </link>
+                        </container>
+                        <screenlet title="${uiLabelMap.ProductInventoryTransfersFor} ${facility.facilityName} [${uiLabelMap.CommonId}: ${facilityId}] ${uiLabelMap.CommonTo}: ${facility.facilityName} [${uiLabelMap.CommonId}: ${facilityId}]}">
+                            <include-form name="ToFacilityTransfers" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                        <screenlet title="${uiLabelMap.CommonFrom}: ${facility.facilityName} [${uiLabelMap.CommonId}: ${facilityId}]">
+                            <section>
+                                <condition>
+                                    <if-compare field="parameters.completeRequested" operator="equals" value="true"/>
+                                </condition>
+                                <widgets>
+                                    <include-form name="FromFacilityTransfersComplete" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                </widgets>
+                                <fail-widgets>
+                                    <include-form name="FromFacilityTransfers" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                </fail-widgets>
+                            </section>
+                        </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="TransferInventoryItem">
+        <section>
+            <actions>
+            	<set field="tabButtonItem" value="WareHouseManagement"/>
+                <set field="tabButtonItem2" value="FindFacilityTransfers"/>
+                <script location="component://orderfulfillment/groovyScripts/facility/inventory/TransferInventoryItem.groovy"/>
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                <entity-one entity-name="Facility" value-field="facility"/>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
+                <set field="title" value="${uiLabelMap.PageTitleTransferInventoryItem}"/>
+                
+                <entity-one entity-name="InventoryItem" value-field="inventoryItem"/>
+                <entity-one entity-name="InventoryItemType" value-field="inventoryItemType">
+                    <field-map field-name="inventoryItemTypeId" value="${inventoryItem.inventoryItemTypeId}"/>
+                </entity-one>
+                <entity-one entity-name="StatusItem" value-field="statusItem">
+                    <field-map field-name="statusId" value="${inventoryItem.statusId}"/>
+                </entity-one>
+                <entity-one entity-name="InventoryTransfer" value-field="inventoryTransfer"/>
+                <entity-one entity-name="Product" value-field="product"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="WareHouseManagementTabBar"/>
+                        <label text="${title}" style="h1"/>
+                        <container style="button-bar">
+                            <link target="PickMoveStockSimple" text="${uiLabelMap.CommonPrint}" style="buttontext  ">
+                                <parameter param-name="facilityId" from-field="facilityId"/>
+                            </link>
+                        </container>
+                        <screenlet title="${uiLabelMap.ProductInventoryTransfersFor} ${uiLabelMap.FormFieldTitle_inventoryItemId}">
+                            <include-form name="CreateInventoryTransferForItem" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                        <screenlet title="${uiLabelMap.ProductInventoryTransfersFor} ${uiLabelMap.FormFieldTitle_productId}">
+                            <include-form name="CreateInventoryTransferForProduct" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                        <section>
+                            <condition>
+                                <or>
+                                    <not><if-empty field="inventoryTransfer"/></not>
+                                    <not><if-empty field="product"/></not>
+                                    <not><if-empty field="inventoryItem"/></not>
+                                </or>
+                            </condition>
+                            <widgets>
+                                <screenlet title="${uiLabelMap.ProductInventoryTransfer}">
+                                    <include-form name="CreateInventoryTransfer" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+     <screen name="FindFacilityPhysicalInventory">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitleFindFacilityPhysicalInventory"/>
+                <set field="headerItem" value="facility"/>
+                <set field="tabButtonItem" value="WareHouseManagement"/>
+                <set field="tabButtonItem2" value="PhysicalInventory"/>
+                <script location="component://orderfulfillment/groovyScripts/facility/inventory/FindFacilityPhysicalInventory.groovy"/>
+
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="WareHouseManagementTabBar"/>
+                        <screenlet title="${uiLabelMap.PageTitleFindFacilityPhysicalInventory}">
+                            <include-form name="FindPhysicalInventory" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                        <screenlet title="${uiLabelMap.PageTitleFindFacilityPhysicalInventory}">
+                            <include-form name="ListPhysicalInventory" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="FindInvoices">
+        <section>
+            <actions>
+                <set field="headerItem" value="invoices"/>
+                <set field="tabButtonItem" value="Invoices"/>
+                <set field="titleProperty" value="Find Invoices"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <section>
+                            <widgets>
+                                <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                                    <!-- <decorator-section name="menu-bar">
+                                        <include-menu name="InvoiceSubTabBar" location="component://accounting/widget/AccountingMenus.xml"/>
+                                        <container style="clear"/>
+                                    </decorator-section> -->
+                                    <decorator-section name="search-options">
+                                        <include-form name="FindInvoices" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                    <decorator-section name="search-results">
+                                        <include-form name="ListInvoices"  location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                </decorator-screen>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="FindShipment">
+        <section>
+            <actions>
+                <set field="titleProperty" value="ProductFindShipment"/>
+                <set field="headerItem" value="shipment"/>
+                <set field="tabButtonItem" value="Shipment"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <link target="EditShipment" text="${uiLabelMap.ProductNewShipment}" style="buttontext"></link>
+                        <screenlet title="${uiLabelMap.ProductFindShipment}">
+                            <include-form name="FindShipment" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                        <screenlet title="${uiLabelMap.ProductShipmentsFound}">
+                            <include-form name="ListShipment" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="EditShipment">
+        <section>
+            <actions>
+                <set field="titleProperty" value="ProductEditShipment"/>
+                <set field="headerItem" value="shipment"/>
+                <set field="tabButtonItem" value="Shipment"/>
+                <set field="shipmentTypeId" from-field="parameters.shipmentTypeId"/>
+                <script location="component://product/groovyScripts/facility/shipment/EditShipment.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <screenlet title="${groovy: parameters.shipmentId ? uiLabelMap.ProductEditShipment : uiLabelMap.ProductNewShipment}">
+                            <include-form name="EditShipment" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="invoiceOverview">
+        <section>
+            <actions>
+                <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
+                <set field="titleProperty" value="PageTitleInvoiceOverview"/>
+                <set field="tabButtonItem" value="Invoices"/>
+                <set field="invoiceId" from-field="parameters.invoiceId"/>
+                <entity-one entity-name="Invoice" value-field="invoice"/>
+                <entity-and entity-name="InvoiceRole" list="invoiceRoles">
+                    <field-map field-name="invoiceId" from-field="parameters.invoiceId"/>
+                    <order-by field-name="partyId"/>
+                </entity-and>
+                <entity-and entity-name="InvoiceStatus" list="invoiceStatus">
+                    <field-map field-name="invoiceId" from-field="parameters.invoiceId"/>
+                    <order-by field-name="statusDate"/>
+                </entity-and>
+                <entity-and entity-name="InvoiceTerm" list="invoiceTerms">
+                    <field-map field-name="invoiceId" from-field="parameters.invoiceId"/>
+                    <order-by field-name="invoiceTermId"/>
+                </entity-and>
+                <entity-and entity-name="TimeEntry" list="timeEntries">
+                    <field-map field-name="invoiceId" from-field="parameters.invoiceId"/>
+                    <order-by field-name="invoiceItemSeqId"/>
+                </entity-and>
+                <script location="component://accounting/groovyScripts/invoice/CreateApplicationList.groovy"/>
+                <set field="invoiceAmount" value="${groovy:org.apache.ofbiz.accounting.invoice.InvoiceWorker.getInvoiceTotal(invoice)}" type="BigDecimal"/>
+                <set field="notAppliedAmount" value="${groovy:org.apache.ofbiz.accounting.invoice.InvoiceWorker.getInvoiceNotApplied(invoice)}" type="BigDecimal"/>
+                <set field="appliedAmount" value="${groovy:org.apache.ofbiz.accounting.invoice.InvoiceWorker.getInvoiceApplied(invoice)}" type="BigDecimal"/>
+                <entity-condition entity-name="InvItemAndOrdItem" list="invItemAndOrdItems">
+                    <condition-expr field-name="invoiceId"  operator="equals" from-field="invoiceId"/>
+                    <order-by field-name="invoiceItemSeqId"/>
+                </entity-condition>
+                <entity-condition entity-name="AcctgTransAndEntries" list="acctgTransAndEntries">
+                    <condition-expr field-name="invoiceId"  operator="equals" from-field="invoiceId"/>
+                    <order-by field-name="acctgTransId"/>
+                    <order-by field-name="acctgTransEntrySeqId"/>
+                </entity-condition>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <section>
+                            <condition>
+                                <not><if-empty field="invoice"/></not>
+                            </condition>
+                            <widgets>
+                                <section>
+                            <condition>
+                                <if-compare field="invoice.statusId" operator="equals" value="INVOICE_IN_PROCESS"/>
+                            </condition>
+                            <widgets>
+                                <screenlet title="${uiLabelMap.AccountingInvoiceHeader}">
+                                    <link target="editInvoice" text="${uiLabelMap.CommonUpdate}" style="buttontext">
+                                        <parameter param-name="invoiceId"/>
+                                    </link>
+                                    <include-form name="InvoiceHeader" location="component://accounting/widget/InvoiceForms.xml"/>
+                                </screenlet>
+                                <container style="lefthalf">
+                                    <screenlet title="${uiLabelMap.CommonStatus}" navigation-form-name="ListInvoiceStatus">
+                                        <include-form name="ListInvoiceStatus" location="component://accounting/widget/InvoiceForms.xml"/>
+                                    </screenlet>
+                                    <screenlet title="${uiLabelMap.AccountingAppliedPayments} ${appliedAmount?currency(${invoice.currencyUomId})} ${uiLabelMap.AccountingOpenPayments} ${notAppliedAmount?currency(${invoice.currencyUomId})}"
+                                        navigation-form-name="ListInvoiceApplications">
+                                        <link target="editInvoiceApplications" text="${uiLabelMap.CommonUpdate}" style="buttontext">
+                                            <parameter param-name="invoiceId"/>
+                                        </link>
+                                        <include-form name="ListInvoiceApplications" location="component://accounting/widget/InvoiceForms.xml"/>
+                                    </screenlet>
+                                </container>
+                                <container style="righthalf">
+                                    <screenlet title="${uiLabelMap.AccountingInvoiceRoles}" navigation-form-name="InvoiceRoles">
+                                        <container>
+                                            <link target="invoiceRoles" text="${uiLabelMap.CommonUpdate}" style="buttontext">
+                                                <parameter param-name="invoiceId"/>
+                                            </link>
+                                        </container>
+                                        <include-form name="InvoiceRoles" location="component://accounting/widget/InvoiceForms.xml"/>
+                                    </screenlet>
+                                    <screenlet title="${uiLabelMap.PartyTerms}">
+                                        <container>
+                                            <link target="invoiceTerms" text="${uiLabelMap.CommonUpdate}" style="buttontext">
+                                                <parameter param-name="invoiceId"/>
+                                            </link>
+                                        </container>
+                                        <include-form name="ListInvoiceTerms" location="component://accounting/widget/InvoiceForms.xml"/>
+                                        <include-form name="ListInvoicePaymentInfo" location="component://accounting/widget/InvoiceForms.xml"/>
+                                    </screenlet>
+                                </container>
+                                <container style="clear"/>
+                                <screenlet title="${uiLabelMap.AccountingInvoiceItems}" navigation-form-name="InvoiceItems">
+                                    <link target="listInvoiceItems" text="${uiLabelMap.CommonUpdate}" style="buttontext">
+                                        <parameter param-name="invoiceId"/>
+                                    </link>
+                                    <include-form name="InvoiceItems" location="component://accounting/widget/InvoiceForms.xml"/>
+                                </screenlet>
+                                <section>
+                                    <condition>
+                                        <not><if-empty field="timeEntries"/></not>
+                                    </condition>
+                                    <widgets>
+                                        <screenlet title="${uiLabelMap.AccountingInvoiceTimeEntries}" navigation-form-name="ListTimeEntries">
+                                            <link target="editInvoiceTimeEntries" text="${uiLabelMap.CommonUpdate}" style="buttontext">
+                                                <parameter param-name="invoiceId"/>
+                                            </link>
+                                            <include-form name="ListTimeEntries" location="component://accounting/widget/InvoiceForms.xml"/>
+                                        </screenlet>
+                                    </widgets>
+                                </section>
+                                <screenlet title="${uiLabelMap.AccountingTransactions}" navigation-form-name="AcctgTransAndEntries">
+                                    <include-form name="AcctgTransAndEntries" location="component://accounting/widget/InvoiceForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                            <fail-widgets>
+                                <screenlet title="${uiLabelMap.AccountingInvoiceHeader}">
+                                    <include-form name="InvoiceHeader" location="component://accounting/widget/InvoiceForms.xml"/>
+                                </screenlet>
+                                <container style="lefthalf">
+                                    <screenlet title="${uiLabelMap.CommonStatus}" navigation-form-name="ListInvoiceStatus">
+                                        <include-form name="ListInvoiceStatus" location="component://accounting/widget/InvoiceForms.xml"/>
+                                    </screenlet>
+                                    <screenlet title="${uiLabelMap.AccountingAppliedPayments} ${appliedAmount?currency(${invoice.currencyUomId})} ${uiLabelMap.AccountingOpenPayments} ${notAppliedAmount?currency(${invoice.currencyUomId})}"
+                                        navigation-form-name="ListInvoiceApplications">
+                                        <include-form name="ListInvoiceApplications" location="component://accounting/widget/InvoiceForms.xml"/>
+                                    </screenlet>
+                                </container>
+                                <container style="righthalf">
+                                    <screenlet title="${uiLabelMap.AccountingInvoiceRoles}" navigation-form-name="InvoiceRoles">
+                                        <include-form name="InvoiceRoles" location="component://accounting/widget/InvoiceForms.xml"/>
+                                    </screenlet>
+                                    <screenlet title="${uiLabelMap.PartyTerms}">
+                                        <include-form name="ListInvoiceTerms" location="component://accounting/widget/InvoiceForms.xml"/>
+                                        <include-form name="ListInvoicePaymentInfo" location="component://accounting/widget/InvoiceForms.xml"/>
+                                    </screenlet>
+                                </container>
+                                <container style="clear"/>
+                                <screenlet title="${uiLabelMap.AccountingInvoiceItems}" navigation-form-name="InvoiceItems">
+                                    <include-form name="InvoiceItems" location="component://accounting/widget/InvoiceForms.xml"/>
+                                </screenlet>
+                                <section>
+                                    <condition>
+                                        <not><if-empty field="timeEntries"/></not>
+                                    </condition>
+                                    <widgets>
+                                        <screenlet title="${uiLabelMap.AccountingInvoiceTimeEntries}" navigation-form-name="ListTimeEntries">
+                                            <include-form name="ListTimeEntries" location="component://accounting/widget/InvoiceForms.xml"/>
+                                        </screenlet>
+                                    </widgets>
+                                </section>
+                                <screenlet title="${uiLabelMap.AccountingTransactions}" navigation-form-name="AcctgTransAndEntries">
+                                    <include-form name="AcctgTransAndEntries" location="component://accounting/widget/InvoiceForms.xml"/>
+                                </screenlet>
+                            </fail-widgets>
+                                </section>
+                            </widgets>
+                            <fail-widgets>
+                                <label text="${uiLabelMap.AccountingInvoiceDoesNotExists}"></label>
+                            </fail-widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="OrderHeaderView">
+        <section>
+            <actions>
+                <set field="titleProperty" value="OrderViewOrder"/>
+                <set field="headerItem" value="findorders"/>
+                <set field="layoutSettings.javaScripts[]" value="/ordermgr-js/order.js" global="true"/>
+                <set field="layoutSettings.javaScripts[]" value="/ordermgr-js/OrderShippingInfo.js" global="true"/>
+                <set field="layoutSettings.javaScripts[]" value="/ordermgr-js/geoAutoCompleter.js" global="true"/>
+                <script location="component://order/groovyScripts/order/OrderView.groovy"/>
+                <script location="component://order/groovyScripts/order/OrderViewWebSecure.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-screen name="orderHeader"/>
+                        <container style="clear"/>
+                        <platform-specific>
+                            <html><html-template location="component://order/template/order/OrderItems.ftl"/></html>
+                        </platform-specific>
+                        <platform-specific>
+                            <html><html-template location="component://order/template/order/OrderNotes.ftl"/></html>
+                        </platform-specific>
+                        <platform-specific>
+                            <html><html-template location="component://order/template/order/Transitions.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="orderHeader">
+        <section>
+            <condition>
+                <not><if-empty field="orderHeader"/></not>
+            </condition>
+            <widgets>
+                <container id="split50">
+                    <container style="lefthalf">
+                        <include-screen name="orderinfo"/>
+                        <include-screen name="orderterms"/>
+                        <include-screen name="orderpaymentinfo"/>
+                        <include-screen name="projectAssoOrder"/>
+                    </container>
+                    <container style="righthalf">
+                        <include-screen name="ordercontactinfo"/>
+                        <include-screen name="OrderRoleInfo"/>
+                        <include-screen name="ordershippinginfo"/>
+                        <include-screen name="OrderSalesReps"/>
+                    </container>
+                </container>
+            </widgets>
+            <fail-widgets>
+                <label style="h2" text="${uiLabelMap.OrderNoOrderFound}: [${orderId}]"></label>
+            </fail-widgets>
+        </section>
+    </screen>
+    <screen name="orderinfo">
+        <section>
+            <widgets>
+                <platform-specific>
+                    <html><html-template location="component://order/template/order/OrderInfo.ftl"/></html>
+                </platform-specific>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="orderterms">
+        <section>
+            <widgets>
+                <platform-specific>
+                    <html><html-template location="component://order/template/order/OrderTerms.ftl"/></html>
+                </platform-specific>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="orderpaymentinfo">
+        <section>
+            <widgets>
+                <platform-specific>
+                    <html><html-template location="component://order/template/order/OrderPaymentInfo.ftl"/></html>
+                </platform-specific>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="projectAssoOrder">
+        <section>
+            <condition>
+                <if-has-permission permission="PROJECTMGR" action="_VIEW"/>
+            </condition>
+            <actions>
+            <set field="orderId" from-field="parameters.orderId"/>
+            <entity-and entity-name="OrderHeaderAndWorkEffort" list="listProjectAssoOrder">
+                <field-map field-name="orderId" from-field="orderId"/>
+                <field-map field-name="workEffortTypeId" value="PROJECT"/>
+            </entity-and>
+            </actions>
+            <widgets>
+                <section>
+                    <condition>
+                        <not>
+                            <if-empty field="listProjectAssoOrder"/>
+                        </not>
+                    </condition>
+                    <widgets>
+                        <screenlet title="${uiLabelMap.PageTitleProjectInformation}">
+                            <include-form name="projectAssoOrder" location="component://projectmgr/widget/forms/ProjectForms.xml"/>
+                        </screenlet>
+                    </widgets>
+                    <fail-widgets></fail-widgets>
+                </section>
+            </widgets>
+            <fail-widgets></fail-widgets>
+        </section>
+    </screen>
+    <screen name="ordercontactinfo">
+        <section>
+            <widgets>
+                <platform-specific>
+                    <html><html-template location="component://order/template/order/OrderContactInfo.ftl"/></html>
+                </platform-specific>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="OrderRoleInfo">
+        <section>
+            <widgets>
+                <screenlet name="OrderRoles" title="${uiLabelMap.CommonRoles}" initially-collapsed="true">
+                    <include-grid name="ListOrderRoles" location="component://order/widget/ordermgr/OrderForms.xml"/>
+                </screenlet>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="ordershippinginfo">
+        <section>
+            <widgets>
+                <platform-specific>
+                    <html><html-template location="component://order/template/order/OrderShippingInfo.ftl"/></html>
+                </platform-specific>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="OrderSalesReps">
+        <section>
+            <widgets>
+                <platform-specific>
+                    <html><html-template location="component://order/template/order/OrderSalesReps.ftl"/></html>
+                </platform-specific>
+            </widgets>
+        </section>
+    </screen>
+    <!-- <screen name="ShipmentManifest.fo">
+        <section>
+            <actions>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
+
+                <set field="shipmentId" from-field="parameters.shipmentId"/>
+                <script location="component://product/groovyScripts/facility/shipment/ViewShipment.groovy"/>
+                <script location="component://product/groovyScripts/facility/shipment/ShipmentManifest.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="FoReportDecorator" location="component://common/widget/CommonScreens.xml">
+                    at the top left of every page we put the logo and company information
+                    <decorator-section name="topLeft">
+                        <section>
+                            <widgets>
+                                <include-screen name="CompanyLogo" location="component://order/widget/ordermgr/OrderPrintScreens.xml"/>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                    at the top right of every page we put the order information
+                    <decorator-section name="topRight">
+                        <section>
+                            <widgets>
+                                <platform-specific>
+                                    <xsl-fo><html-template location="component://product/template/shipment/PackingSlipShipmentBarCode.fo.ftl"/></xsl-fo>
+                                </platform-specific>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                    <decorator-section name="body">
+                        <section>
+                            <widgets>
+                                <platform-specific>
+                                    <xsl-fo><html-template location="component://product/template/shipment/ShipmentManifest.fo.ftl"/></xsl-fo>
+                                </platform-specific>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen> -->
+    <screen name="InvoicePDF.fo">
+        <section>
+            <actions>
+                <property-map resource="AccountingUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+                <set field="titleProperty" value="AccountingInvoice"/>
+                <script location="component://orderfulfillment/groovyScripts/invoice/EditInvoice.groovy"/>
+                <script location="component://party/groovyScripts/party/GetMyCompany.groovy"/>
+                <script location="component://order/groovyScripts/order/CompanyHeader.groovy"/>
+            </actions>
+            <widgets>
+               <platform-specific>
+                    <xsl-fo><html-template location="component://orderfulfillment/template/invoice/InvoiceReport.fo.ftl"/></xsl-fo>
+                </platform-specific>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="ShipmentManifestPDF.fo">
+        <section>
+            <actions>
+                <!-- base/top/specific map first, then more common map added for shared labels -->
+                <property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+
+                <set field="shipmentId" from-field="parameters.shipmentId"/>
+                <script location="component://product/groovyScripts/facility/shipment/ViewShipment.groovy"/>
+                <script location="component://product/groovyScripts/facility/shipment/ShipmentManifest.groovy"/>
+            </actions>
+            <widgets>
+                <platform-specific>
+                    <xsl-fo><html-template location="component://orderfulfillment/template/shipment/ShipmentManifest.fo.ftl"/></xsl-fo>
+                </platform-specific>
+            </widgets>
+        </section>
+    </screen>
+    
+    
+    <screen name="PicklistReport.fo">
+        <section>
+            <actions>
+                <!-- base/top/specific map first, then more common map added for shared labels -->
+                <property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+				
+				
+                <set field="picklistId" from-field="parameters.picklistId"/>
+                <service service-name="getPickAndPackReportInfo">
+                    <field-map field-name="picklistId"/>
+                </service>
+                <script location="component://orderfulfillment/groovyScripts/pickList/PickListReport.groovy"/>
+            </actions>
+            <widgets>
+                <platform-specific>
+                    <xsl-fo><html-template location="component://orderfulfillment/template/pickList/PicklistTest.fo.ftl"/></xsl-fo>
+                </platform-specific>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="productStoreSelection">
+    	<section>
+    		<actions>
+    			<property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+               <!--  <entity-and list="productStoreGrpMmber" entity-name="ProductStoreGroupMember">
+                 <field-map field-name="productStoreGroupId" value="LOGISTICS_CLIENTS"/>
+                </entity-and>s
+                <set field="productStoreIds" value="${groovy:return org.apache.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(productStoreGrpMmber, &quot;productStoreId&quot;, true)}" type="List" />
+                <entity-condition list="productStores" entity-name="ProductStore">
+                   <condition-expr field-name="productStoreId" operator="in" from-field="productStoreIds"/>
+                </entity-condition>
+                <entity-and list="facilityList" entity-name="Facility">
+                	<field-map field-name="facilityTypeId"  value="WAREHOUSE"/>
+                </entity-and> -->
+                <script location="component://orderfulfillment/groovyScripts/facility/facility/Admin.groovy"/>
+    		</actions>
+			<widgets>
+			<!-- <screenlet title="Select Store And Facility" >
+				<include-form name="productStoreSelection" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml" />
+			</screenlet> -->
+			<platform-specific>
+				<html>
+					<html-template
+						location="component://orderfulfillment/template/selectStore.ftl" />
+				</html>
+			</platform-specific>
+			</widgets>    
+    	</section>
+    </screen>
+    <screen name="FindAirwayBills">
+        <section>
+            <actions>
+                <set field="headerItem" value="FindAirwayBills"/>
+                <set field="tabButtonItem" value="AirwayBills"/>
+                <set field="tabButtonItem2" value="FindAirwayBills"/>
+                <set field="titleProperty" value="Find AirwayBills"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="AirwayBillTabBar"/>
+						<section>
+                            <widgets>
+                                <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                                    <!-- <decorator-section name="menu-bar">
+                                        <include-menu name="InvoiceSubTabBar" location="component://accounting/widget/AccountingMenus.xml"/>
+                                        <container style="clear"/>
+                                    </decorator-section> -->
+                                    <decorator-section name="search-options">
+                                        <include-form name="FindAirwayBills" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                    <decorator-section name="search-results">
+                                        <include-form name="ListAirwayBills"  location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                </decorator-screen>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="AddAirwayBills">
+		<section>
+			<actions>
+				<set field="titleProperty" value="Add Airway Bills" />
+				<set field="tabButtonItem" value="AirwayBills" />
+				<set field="tabButtonItem2" value="AddAirwayBills" />
+				<script location="component://orderfulfillment/groovyScripts/salesOrder/SalesOrderSearch.groovy"/>
+			</actions>
+			<widgets>
+				<decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+					<decorator-section name="body">
+						<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="AirwayBillTabBar"/>
+						<section>
+							<widgets>
+								<section>
+									<widgets>
+										<platform-specific>
+											<html>
+												<html-template
+													location="component://orderfulfillment/template/airwayBill/addAirwayBills.ftl" />
+											</html>
+										</platform-specific>
+									</widgets>
+								</section>
+							</widgets>
+						</section>
+					</decorator-section>
+				</decorator-screen>
+			</widgets>
+		</section>
+	</screen>
+	<screen name="ViewFacilityInventoryItemsDetails">
+        <section>
+            <actions>
+                <property-map resource="WorkEffortUiLabels" map-name="uiLabelMap"/>
+                <set field="titleProperty" value="PageTitleViewFacilityInventoryItemsDetails"/>
+                <set field="headerItem" value="facility"/>
+                <set field="tabButtonItem" value="WareHouseManagement"/>
+				<set field="tabButtonItem2" value="ViewFacilityInventoryItemsDetails"/>
+                <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer" default-value="0"/>
+                <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
+                <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
+
+                <entity-one entity-name="Facility" value-field="facility"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="WareHouseManagementTabBar"/>
+                        <container style="page-title">
+                            <label>${uiLabelMap.ProductInventoryItemsDetailsFor} ${facility.facilityName} [${uiLabelMap.CommonId}:${facility.facilityId}]</label>
+                        </container>
+                        <screenlet title="${uiLabelMap.PageTitleViewFacilityInventoryItemsDetails}">
+                            <include-form name="SearchInventoryItemsDetailsParams" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                        <section>
+                            <condition>
+                                <if-compare field="parameters.reportType" operator="equals" value="BY_ITEM"/>
+                            </condition>
+                            <widgets>
+                                <screenlet title="${uiLabelMap.PageTitleViewFacilityInventoryItemsDetails}">
+                                    <include-form name="ListFacilityInventoryItemsDetailsByItem" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                        </section>
+                        <section>
+                            <condition>
+                                <if-compare field="parameters.reportType" operator="equals" value="BY_PRODUCT"/>
+                            </condition>
+                            <widgets>
+                                <screenlet title="${uiLabelMap.PageTitleViewFacilityInventoryItemsDetails}">
+                                    <include-form name="ListFacilityInventoryItemsDetailsByProduct" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                        </section>
+                        <section>
+                            <condition>
+                                <if-compare field="parameters.reportType" operator="equals" value="BY_DATE"/>
+                            </condition>
+                            <widgets>
+                                <screenlet title="${uiLabelMap.PageTitleViewFacilityInventoryItemsDetails}">
+                                    <include-form name="ListFacilityInventoryItemsDetailsByDate" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="EditInventoryItem">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitleEditInventoryItem"/>
+                <set field="tabButtonItem" value="EditFacilityInventoryItems"/>
+                <set field="subTabButtonItem" value="EditInventoryItem"/>
+                <set field="displayWithNoFacility" value="Y"/>
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                <set field="inventoryItemId" from-field="parameters.inventoryItemId"/>
+
+                <entity-one entity-name="Facility" value-field="facility" auto-field-map="true"/>
+                <entity-one entity-name="InventoryItem" value-field="inventoryItem" auto-field-map="true"/>
+                <entity-condition entity-name="OrderItemShipGrpInvRes" list="inventoryItemReservations">
+                    <condition-list combine="and">
+                        <condition-expr field-name="inventoryItemId" operator="equals" from-field="inventoryItemId"/>
+                    </condition-list>
+                    <order-by field-name="reservedDatetime"/>
+                </entity-condition>
+            </actions>
+            <widgets>
+                <section>
+                    <condition>
+                        <and>
+                            <not>
+                                <if-empty field="inventoryItem"/>
+                            </not>
+                            <if-empty field="facility"/>
+                        </and>
+                    </condition>
+                    <actions>
+                        <set field="parameters.facilityId" from-field="inventoryItem.facilityId"/>
+                        <set field="facilityId" from-field="inventoryItem.facilityId"/>
+                        <entity-one entity-name="Facility" value-field="facility"/>
+                    </actions>
+                    <widgets/>
+                </section>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <section>
+                            <condition>
+                                <not><if-empty field="inventoryItem"/></not>
+                            </condition>
+                            <widgets>
+                                <container style="h1">
+                                    <label text="${uiLabelMap.PageTitleEditInventoryItem}"/>
+                                </container>
+                                <container style="widget-container">
+                                    <link target="EditInventoryItem" text="${uiLabelMap.ProductNewInventoryItem}" style="buttontext">
+                                        <parameter param-name="facilityId" from-field="facilityId"/>
+                                    </link>
+                                    <link target="TransferInventoryItem" text="${uiLabelMap.ProductTransferItem}" style="buttontext">
+                                        <parameter param-name="inventoryItemId" from-field="inventoryItemId"/>
+                                        <parameter param-name="facilityId" from-field="facilityId"/>
+                                    </link>
+                                </container>
+                            </widgets>
+                            <fail-widgets>
+                                <container style="h1">
+                                    <label text="${uiLabelMap.ProductNewInventoryItem}"/>
+                                </container>
+                            </fail-widgets>
+                        </section>
+                        <include-form name="EditInventoryItem" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        <section>
+                            <condition>
+                                <not><if-empty field="inventoryItemId"/></not>
+                            </condition>
+                            <widgets>
+                                <screenlet id="inventory-item-reservations" title="${uiLabelMap.ProductInventoryItemReservations}" initially-collapsed="true">
+                                    <include-form name="InventoryItemReservations" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                        </section>
+                        <section>
+                            <condition>
+                                <if-compare field="inventoryItem.inventoryItemTypeId" operator="equals" value="NON_SERIAL_INV_ITEM"/>
+                            </condition>
+                            <actions>
+                                <script location="component://orderfulfillment/groovyScripts/facility/inventory/PhysicalInventoryVariance.groovy"/>
+                            </actions>
+                            <widgets>
+                                <screenlet id="physical-inventory-variances" title="${uiLabelMap.ProductPhysicalInventoryVariances}" initially-collapsed="true">
+                                    <include-form name="CreatePhysicalInventoryAndVariance" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    <include-form name="ViewPhysicalInventoryAndVariance" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    
+    <screen name="OrderFindReturn">
+        <section>
+            <actions>
+                <set field="headerItem" value="FindReturns"/>
+                <set field="tabButtonItem" value="Returns"/>
+                <set field="tabButtonItem2" value="FindReturns"/>
+                <set field="titleProperty" value="Find Returns"/>
+                <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer"/>
+                <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
+                <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="ReturnsTabBar"/>
+                        <screenlet title="${uiLabelMap.PageTitleFindReturn}">
+                            <container>
+                                <link style="buttontext" target="createSalesReturns" text="${uiLabelMap.OrderCreateNewReturn}"/>
+                            </container>
+                            <include-form name="FindReturns" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                            <include-form name="ListReturns" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                        </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    
+    <screen name="OrderReturnHeader">
+        <section>
+            <actions>
+                <set field="headerItem" value="CreateReturns"/>
+                <set field="tabButtonItem" value="Returns"/>
+                <set field="tabButtonItem2" value="CreateReturns"/>
+                <set field="titleProperty" value="Create Returns"/>
+                <set field="layoutSettings.javaScripts[+0]" value="/ordermgr-js/return.js" global="true"/>
+                <property-to-field field="defaultCurrencyUomId" resource="general" property="currency.uom.id.default" default="USD"/>
+                <script location="component://order/groovyScripts/return/ReturnHeader.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="ReturnsTabBar"/>
+                        <section>
+                            <widgets>
+                                <include-form name="EditReturn" location="component://order/widget/ordermgr/ReturnForms.xml"/>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+     <screen name="PickMoveStock">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitlePickingMoveStock"/>
+                <set field="headerItem" value="facility"/>
+                <set field="tabButtonItem" value="WareHouseManagement"/>
+				<set field="tabButtonItem2" value="PickMoveStock"/>
+                <set field="facilityId" from-field="parameters.facilityId"/>
+                <service service-name="findStockMovesNeeded">
+                    <field-map field-name="facilityId"/>
+                </service>
+                <set field="oiirWarningMessageList" from-field="warningMessageList"/>
+                <service service-name="findStockMovesRecommended">
+                    <field-map field-name="facilityId"/>
+                    <field-map field-name="stockMoveHandled"/>
+                </service>
+                <set field="pflWarningMessageList" from-field="warningMessageList"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="WareHouseManagementTabBar"/>
+                        <platform-specific>
+                            <html><html-template location="component://orderfulfillment/template/facility/PickMoveStock.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="EditFacilityInventoryItems">
+        <section>
+            <actions>
+                <set field="tabButtonItem" value="WareHouseManagement"/>
+                <set field="tabButtonItem2" value="EditFacilityInventoryItems"/>
+                <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
+                <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
+                <entity-one entity-name="Facility" value-field="facility"/>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
+                <set field="title" value="${uiLabelMap.PageTitleEditFacilityInventoryItems}"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="WareHouseManagementTabBar"/>
+                        <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                            <decorator-section name="search-options">
+                                <include-form name="SearchInventoryItemsParams" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                            </decorator-section>
+                            <decorator-section name="search-results">
+                                <include-form name="ListFacilityInventoryItems" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                            </decorator-section>
+                        </decorator-screen>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="createSalesReturns">
+        <section>
+            <actions>
+                <set field="headerItem" value="CreateReturns"/>
+                <set field="tabButtonItem" value="Returns"/>
+                <set field="tabButtonItem2" value="CreateSalesReturns"/>
+                <set field="titleProperty" value="Create Returns"/>
+                <set field="layoutSettings.javaScripts[+0]" value="/ordermgr-js/return.js" global="true"/>
+                <property-to-field field="defaultCurrencyUomId" resource="general" property="currency.uom.id.default" default="USD"/>
+                <!-- <script location="component://order/groovyScripts/return/ReturnHeader.groovy"/> -->
+                <script location="component://orderfulfillment/groovyScripts/return/QuickReturn.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="ReturnsTabBar"/>
+                        
+                        <platform-specific>
+                            <html><html-template location="component://orderfulfillment/template/returns/QuickReturn.ftl"/></html>
+                        </platform-specific>
+                        
+                        <!-- <section>
+                            <widgets>
+                                <include-form name="EditReturn" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                            </widgets>
+                        </section> -->
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="OrderReturnItems">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitleReturnItems"/>
+                <set field="headerItem" value="return"/>
+                <set field="tabButtonItem" value="Returns"/>
+                <set field="tabButtonItem2" value="ReturnItems"/>
+                <script location="component://orderfulfillment/groovyScripts/return/ReturnItems.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="ReturnsTabBar"/>
+                        <section>
+                            <widgets>
+                                <platform-specific>
+                                    <html>
+                                        <html-template location="component://orderfulfillment/template/returns/ReturnItems.ftl"/>
+                                    </html>
+                                </platform-specific>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    
+    <screen name="SalesOrderSearch">
+        <section>
+            <actions>
+				<set field="titleProperty" value="Sales Order Search" />
+				<set field="tabButtonItem" value="SalesOrderSearch"/>
+				<set field="viewSize" from-field="parameters.VIEW_SIZE" />
+				<set field="salesChannelEnumId" from-field="parameters.salesChannelEnumId" />
+				<set field="parameters.orderTypeId" value="SALES_ORDER" />
+				<set field="facilityId" from-field="parameters.facilityId"/>
+                <set field="productStoreId" from-field="parameters.productStoreId"/>
+                
+                <set field="orderId" from-field="parameters.orderId"/>
+                <set field="referenceNo" from-field="parameters.referenceNo"/>
+                
+                <set field="salesChannel" from-field="parameters.salesChannel"/>
+                <set field="orderFromDate" from-field="parameters.orderFromDate"/>
+                
+                <set field="orderThruDate" from-field="parameters.orderThruDate"/>
+                <set field="orderDateSort" from-field="parameters.orderDateSort"/>
+                
+                <set field="statusId" from-field="parameters.statusId"/>
+			</actions>
+            <widgets>
+                 <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+						 <!-- <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="SalesOrderTabBar"/> -->
+						 <section>
+                            <widgets>
+                                <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                                    <decorator-section name="menu-bar">
+                                        <container style="button-bar">
+                                            <link target="CreateSalesOrder" text="${uiLabelMap.CommonCreateNew}" style="buttontext create"/>
+                                        </container>
+                                    </decorator-section>
+                                    <decorator-section name="search-options">
+                                        <include-form name="FindSalesOrderPaginate" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                    <decorator-section name="search-results">
+										<platform-specific>
+											<html>
+											   <html-template
+													location="component://orderfulfillment/template/plugins/DataTablesImports.ftl" />
+												<html-template
+													location="component://orderfulfillment/template/salesOrder/ListSalesOrdersDataTable.ftl" />
+											</html>
+										</platform-specific>
+										<!-- <platform-specific>
+											<html>
+												<html-template
+													location="component://depotsales/webapp/depotsales/depotsales/invoiceEvents.ftl" />		
+											</html>
+										</platform-specific> -->
+									</decorator-section>
+                                   
+                                </decorator-screen>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen> 
+    
+    <screen name="DepotSalesInvoice">
+		<section>
+			<actions>
+			    <set field="titleProperty" value="Find Sales Invoices" />
+				<set field="filterByDate" value="true" />
+				<set field="purposeTypeId"  value="YARN_SALE"/>
+				<set field="costCenterId" from-field="parameters.costCenterId"  />
+				<set field="partyId" from-field="parameters.partyId"  />
+				<set field="invoiceId" from-field="parameters.invoiceId"  />
+				<set field="shipmentId" from-field="parameters.shipmentId"  />
+				<set field="statusId" from-field="parameters.statusId"  />
+				<set field="invoiceDateSort" from-field="parameters.invoiceDateSort"  />
+				<set field="tallyRefNO" from-field="parameters.tallyRefNO"  />
+				<set field="invoiceNo" from-field="parameters.invoiceNo"  />
+				<set field="noConditionFind" from-field="parameters.noConditionFind"  />
+				<set field="invoiceTypeId" value="SALES_INVOICE"  />
+				<set field="invoiceFromDate" from-field="parameters.invoiceFromDate"  />	
+				<set field="invoiceThruDate" from-field="parameters.invoiceThruDate"  />	
+				<set field="tabButtonItem" value="salesInvoice" />
+				<set field="tabButtonItem5" value="${parameters.subTabButtonValue}" />
+				<set field="tabButtonItem2" value="${parameters.actionSubTabButtonValue}" />
+
+				
+				<script
+					location="component://depotsales/webapp/depotsales/WEB-INF/actions/depotsales/ListPurchaseInvoiceInfinityScroll.groovy" />
+			</actions>
+			<widgets>
+				<decorator-screen name="BranchTransactionsCommonDecorator"
+					location="component://depotsales/widget/CommonScreens.xml">
+					<decorator-section name="body">
+						<!-- <include-menu name="BranchSalesIndentTabBar"
+							location="component://depotsales/widget/DepotSalesMenus.xml" /> -->
+						<section>
+							<widgets>
+							<decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+							 		<decorator-section name="search-options">
+                                        <include-form name="FindSalesInvoicePaginate" location="component://depotsales/widget/DepotSalesForms.xml"/>
+                                    </decorator-section>
+                                    <decorator-section name="search-results">
+									<platform-specific>
+										<html>
+										   <html-template
+												location="component://depotsales/webapp/depotsales/depotsales/ListOfInvoicesPlugIn.ftl" />
+											<html-template
+												location="component://depotsales/webapp/depotsales/depotsales/ListSalesInvoicesWithPagination.ftl" />
+										</html>
+									</platform-specific>
+									<platform-specific>
+										<html>
+											<html-template
+												location="component://depotsales/webapp/depotsales/depotsales/invoiceEvents.ftl" />		
+										</html>
+									</platform-specific>
+										
+								</decorator-section>
+								</decorator-screen>
+							</widgets>
+						</section>
+					</decorator-section>
+				</decorator-screen>
+			</widgets>
+		</section>
+	</screen>
+    
+    <screen name="ShipmentsForManifest">
+        <section>
+            <actions>
+				<set field="titleProperty" value="Sales Order Search" />
+				<set field="tabButtonItem" value="ShipmentManifest"/>
+				<set field="tabButtonItem2" value="GenerateShipmentManifest"/>
+				<set field="viewSize" from-field="parameters.VIEW_SIZE" />
+				<set field="salesChannelEnumId" from-field="parameters.salesChannelEnumId" />
+				<set field="parameters.orderTypeId" value="SALES_ORDER" />
+				<set field="facilityId" from-field="parameters.facilityId"/>
+                <set field="productStoreId" from-field="parameters.productStoreId"/>
+                
+                <set field="shipmentId" from-field="parameters.shipmentId"/>
+                <set field="carrierId" from-field="parameters.carrierId"/>
+                
+                <set field="orderId" from-field="parameters.orderId"/>
+                <set field="statusId" from-field="parameters.statusId"/>
+                
+                <set field="shipmentFromDate" from-field="parameters.shipmentThruDate"/>
+                <set field="shipmentDateSort" from-field="parameters.shipmentDateSort"/>
+                
+			</actions>
+            <widgets>
+                 <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+						 <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="ShipmentManifestTabBar"/>
+						 <section>
+                            <widgets>
+                                <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                                    <!-- <decorator-section name="menu-bar">
+                                        <container style="button-bar">
+                                            <link target="CreateSalesOrder" text="${uiLabelMap.CommonCreateNew}" style="buttontext create"/>
+                                        </container>
+                                    </decorator-section> -->
+                                    <decorator-section name="search-options">
+                                        <include-form name="FindShipmentsPaginate" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                    <decorator-section name="search-results">
+										<platform-specific>
+											<html>
+											   <html-template
+													location="component://orderfulfillment/template/plugins/DataTablesImports.ftl" />
+												<html-template
+													location="component://orderfulfillment/template/shipment/ListShipmentsToManifestDataTable.ftl" />
+											</html>
+										</platform-specific>
+										<!-- <platform-specific>
+											<html>
+												<html-template
+													location="component://depotsales/webapp/depotsales/depotsales/invoiceEvents.ftl" />		
+											</html>
+										</platform-specific> -->
+									</decorator-section>
+                                   
+                                </decorator-screen>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen> 
+    <screen name="ListShipmentManifest">
+        <section>
+            <actions>
+                <set field="headerItem" value="ShipmentManifest"/>
+                <set field="tabButtonItem" value="ShipmentManifest"/>
+                <set field="tabButtonItem2" value="ListShipmentManifest"/>
+                <set field="titleProperty" value="Shipment Manifest"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="ShipmentManifestTabBar"/>
+						 <section>
+                            <widgets>
+                                <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
+                                    <!-- <decorator-section name="menu-bar">
+                                        <include-menu name="InvoiceSubTabBar" location="component://accounting/widget/AccountingMenus.xml"/>
+                                        <container style="clear"/>
+                                    </decorator-section> -->
+                                    <decorator-section name="search-options">
+                                        <include-form name="FindShipmentManifest" location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                    <decorator-section name="search-results">
+                                        <include-form name="ListShipmentManifest"  location="component://orderfulfillment/widget/OrderFulfillmentForms.xml"/>
+                                    </decorator-section>
+                                </decorator-screen>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    
+    <screen name="ReceiveReturn">
+        <section>
+            <actions>
+                <set field="titleProperty" value="ProductReceiveReturn"/>
+                <set field="headerItem" value="Returns"/>
+                <set field="tabButtonItem" value="Returns"/>
+                <set field="tabButtonItem2" value="ReceiveReturn"/>
+				<script location="component://product/groovyScripts/facility/returns/ReceiveReturn.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="ReturnsTabBar"/>
+                		<platform-specific>
+                            <html><html-template location="component://product/template/returns/ReceiveReturn.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    
+    <screen name="shipmentManifestCSV">
+        <section>
+            <actions>
+				<set field="manifestId" from-field="parameters.manifestId"/>
+				<set field="carrierId" from-field="parameters.carrierId"/>
+				<script location="component://orderfulfillment/groovyScripts/shipment/shipmentManifest.groovy"/>
+				
+            </actions>
+            <widgets>
+                 <include-form location="component://orderfulfillment/widget/OrderFulfillmentForms.xml" name="shipmentManifestCSV"/>
+            </widgets>
+        </section>
+    </screen>
+</screens>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entity-engine-xml>
+
+	<Party partyId="JK_TA" partyTypeId="PARTY_GROUP"/>
+	<PartyGroup partyId="JK_TA" groupName="Jammu And Kashmir State Tax Authority"/>
+	<PartyRole partyId="JK_TA" roleTypeId="TAX_AUTHORITY"/>
+
+	<TaxAuthority includeTaxInPrice="N" requireTaxIdForExemption="Y" taxAuthGeoId="IN-JK" taxAuthPartyId="JK_TA"/>
+
+	<TaxAuthorityCategory productCategoryId="TAX_SLAB_28" taxAuthGeoId="IN-JK" taxAuthPartyId="JK_TA"/>
+ 	<TaxAuthorityCategory productCategoryId="TAX_SLAB_18" taxAuthGeoId="IN-JK" taxAuthPartyId="JK_TA"/>
+ 	<TaxAuthorityCategory productCategoryId="TAX_SLAB_12" taxAuthGeoId="IN-JK" taxAuthPartyId="JK_TA"/>
+ 	<TaxAuthorityCategory productCategoryId="TAX_SLAB_5" taxAuthGeoId="IN-JK" taxAuthPartyId="JK_TA"/>
+
+ 	<TaxAuthorityRateProduct isTaxInShippingPrice="Y" productCategoryId="TAX_SLAB_18" taxApplicabilityEnumId="INTRA-STATE" taxAuthGeoId="IN-JK" taxAuthPartyId="JK_TA" taxAuthorityRateSeqId="10034" taxAuthorityRateTypeId="SGST" taxPercentage="9.000000" taxPromotions="Y" taxShipping="Y"/>
+ 	
+ 	
+ 	<TaxAuthorityRateProduct createdStamp="2018-01-31 13:31:13.0" createdTxStamp="2018-01-31 13:31:13.0" isTaxInShippingPrice="Y" lastUpdatedStamp="2018-02-02 14:44:22.0" lastUpdatedTxStamp="2018-02-02 14:44:22.0" productCategoryId="TAX_SLAB_18" taxApplicabilityEnumId="INTER-STATE" taxAuthGeoId="IND" taxAuthPartyId="IND_CBEC" taxAuthorityRateSeqId="M10003" taxAuthorityRateTypeId="IGST" taxPercentage="18.000000" taxPromotions="Y" taxShipping="Y"/>
+ 	<TaxAuthorityRateProduct createdStamp="2018-01-31 13:31:21.0" createdTxStamp="2018-01-31 13:31:21.0" isTaxInShippingPrice="Y" lastUpdatedStamp="2018-02-02 14:44:28.0" lastUpdatedTxStamp="2018-02-02 14:44:28.0" productCategoryId="TAX_SLAB_18" taxApplicabilityEnumId="INTRA-STATE" taxAuthGeoId="IND" taxAuthPartyId="IND_CBEC" taxAuthorityRateSeqId="M10004" taxAuthorityRateTypeId="CGST" taxPercentage="9.000000" taxPromotions="Y" taxShipping="Y"/>
+ 	<TaxAuthorityRateProduct createdStamp="2018-01-31 13:31:13.0" createdTxStamp="2018-01-31 13:31:13.0" isTaxInShippingPrice="Y" lastUpdatedStamp="2018-02-02 14:44:22.0" lastUpdatedTxStamp="2018-02-02 14:44:22.0" productCategoryId="TAX_SLAB_5" taxApplicabilityEnumId="INTER-STATE" taxAuthGeoId="IND" taxAuthPartyId="IND_CBEC" taxAuthorityRateSeqId="M10005" taxAuthorityRateTypeId="IGST" taxPercentage="5.000000" taxPromotions="Y" taxShipping="Y"/>
+
+</entity-engine-xml>

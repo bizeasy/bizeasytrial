@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/ofbiz-properties.xsd">
+    <property key="OrderFulfillmentApplication">
+        <value xml:lang="en">OrderFulfillment Application</value>
+        <value xml:lang="zh">OrderFulfillment应用程序</value>
+        <value xml:lang="zh-TW">OrderFulfillment應用程式</value>
+    </property>
+    <property key="OrderFulfillmentCompanyName">
+        <value xml:lang="en">OFBiz: OrderFulfillment</value>
+        <value xml:lang="zh-TW">OFBiz: OrderFulfillment</value>
+    </property>
+    <property key="OrderFulfillmentCompanySubtitle">
+        <value xml:lang="en">Part of the Apache OFBiz Family of Open Source Software</value>
+        <value xml:lang="it">Un modulo della famiglia di software open source Apache OFBiz</value>
+        <value xml:lang="zh">开源软件OFBiz的组成部分</value>
+        <value xml:lang="zh-TW">開源軟體OFBiz的組成部分</value>
+    </property>
+    <property key="OrderFulfillmentViewPermissionError">
+        <value xml:lang="en">You are not allowed to view this page.</value>
+        <value xml:lang="zh">不允许你浏览这个页面。</value>
+        <value xml:lang="zh-TW">不允許您檢視這個頁面.</value>
+    </property>
+    
+    <property key="OrderList">
+        <value xml:lang="en">Order List</value>
+    </property>
+    
+    
+    
+    <property key="SalesOrder">
+        <value xml:lang="en">Sales Order</value>
+    </property>
+    <property key="PurchaseOrder">
+        <value xml:lang="en">Purchase Order</value>
+    </property>
+    <property key="ReceiveInventory">
+        <value xml:lang="en">Receive Inventory</value>
+    </property>
+    
+    <property key="PickList">
+        <value xml:lang="en">Pick List</value>
+    </property>
+    <property key="VerifyPickList">
+        <value xml:lang="en">Verify Pick List</value>
+    </property>
+    <property key="Shipment">
+        <value xml:lang="en">Shipment</value>
+    </property>
+    <property key="Inventory">
+        <value xml:lang="en">Inventory</value>
+    </property>
+    
+    <property key="Inventory">
+        <value xml:lang="en">Inventory</value>
+    </property>
+    
+    <property key="OrderFulfillmentMasters">
+        <value xml:lang="en">Master Screens</value>
+    </property>
+</resource>

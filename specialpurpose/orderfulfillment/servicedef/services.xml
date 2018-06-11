@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/services.xsd">
+    <description>OrderFulfillment Services</description>
+    <vendor></vendor>
+    <version>1.0</version>
+
+    <service name="noSyntaxError" engine="interface">
+        <description>
+            Dummy service to prevent empty files and syntax error - Remove when the 1st real service will be added here 
+        </description>
+    </service> 
+    
+    <!-- <service name="sendPrintFromScreen" max-retry="0" engine="java"
+        location="org.apache.ofbiz.content.output.OutputServices" invoke="sendPrintFromScreen">
+        <description>Send Print From Screen Widget Service</description>
+        <attribute name="screenLocation" type="String" mode="IN" optional="false"/>
+        <attribute name="screenContext" type="Map" mode="IN" optional="true"/>
+        <attribute name="contentType" type="String" mode="IN" optional="true"/>
+        <attribute name="printerContentType" type="String" mode="IN" optional="true"/>
+        <attribute name="printerName" type="String" mode="IN" optional="true"/>
+        <attribute name="docAttributes" type="List" mode="IN" optional="true"/>
+        <attribute name="printRequestAttributes" type="List" mode="IN" optional="true"/>
+    </service> -->
+
+    <service name="convertFoToPdfAndPrintFile" max-retry="0" engine="java"
+        location="org.apache.ofbiz.orderfulfillment.printer.Print" invoke="convertFoToPdfAndPrintFile">
+        <description>Create a File From Screen Widget Service</description>
+        <attribute name="documentId" type="String" mode="IN" optional="true"/>
+        <attribute name="facilityId" type="String" mode="IN" optional="true"/>
+        <attribute name="printerName" type="String" mode="IN" optional="true"/>
+        <attribute name="screenContext" type="Map" mode="IN" optional="false"/>
+        <attribute name="contentType" type="String" mode="IN" optional="true"/>
+    </service>
+    
+    <service name="printShipmentLabelAndInvoice" max-retry="0" engine="java"
+        location="org.apache.ofbiz.orderfulfillment.printer.Print" invoke="printShipmentLabelAndInvoice">
+        <description>Create a File From Screen Widget Service</description>
+        <attribute name="shipmentId" type="String" mode="IN" optional="false"/>
+        <attribute name="invoiceId" type="String" mode="IN" optional="true"/>
+        <attribute name="orderId" type="String" mode="IN" optional="true"/>
+    </service>
+    
+    <service name="assignAirwayBillsForShipment" max-retry="0" engine="java"
+        location="org.apache.ofbiz.orderfulfillment.airwaybill.AirwaybillServices" invoke="assignAirwayBillsForShipment">
+        <description>Create a File From Screen Widget Service</description>
+        <attribute name="shipmentId" type="String" mode="IN" optional="false"/>
+        <attribute name="invoiceId" type="String" mode="IN" optional="true"/>
+        <attribute name="orderId" type="String" mode="IN" optional="true"/>
+        <attribute name="airwayBillNumber" type="String" mode="OUT" optional="true"/>
+    </service>
+    <service name="createAirwayBills" max-retry="0" engine="java"
+        location="org.apache.ofbiz.orderfulfillment.airwaybill.AirwaybillServices" invoke="createAirwayBills">
+        <description>Create a File From Screen Widget Service</description>
+        <attribute name="carrierPartyId" type="String" mode="IN" optional="false"/>
+        <attribute name="shipmentMethodTypeId" type="String" mode="IN" optional="true"/>
+        <attribute name="awbPrefix" type="String" mode="IN" optional="true"/>
+        <attribute name="fromAwb" type="String" mode="IN" optional="false"/>
+        <attribute name="toAwb" type="String" mode="IN" optional="false"/>
+        <attribute name="noOfAwbs" type="String" mode="OUT" optional="true"/>
+    </service>
+    <!-- Master Services -->
+    <service name="uploadSalesOrderFile" engine="java"
+            location="org.apache.ofbiz.orderfulfillment.order.OrderEvents" invoke="uploadSalesOrderFile" auth="true" transaction-timeout="720000">
+        <attribute name="uploadedFile" type="java.nio.ByteBuffer" mode="IN" optional="true"/>
+        <attribute name="_uploadedFile_fileName" type="String" mode="IN" optional="true"/>
+        <attribute name="_uploadedFile_contentType" type="String" mode="IN" optional="true"/>
+        <attribute name="productStoreId" mode="IN" type="String" optional="false"/>
+        <attribute name="facilityId" mode="IN" type="String" optional="false"/>
+    </service>
+    <service name="createLocationPrefixConfig" engine="java"
+            location="org.apache.ofbiz.orderfulfillment.order.OrderEvents" invoke="createLocationPrefixConfig" auth="true" transaction-timeout="720000">
+        <attribute name="facilityId" type="String" mode="IN" optional="false"/>
+        <attribute name="aisleFormat" type="String" mode="IN" optional="true"/>
+        <attribute name="sectionFormat" mode="IN" type="String" optional="true"/>
+        <attribute name="levelFormat" type="String" mode="IN" optional="true"/>
+        <attribute name="binFormat" mode="IN" type="String" optional="true"/>
+    </service>
+    <service name="createFacilityLoc" engine="java"
+            location="org.apache.ofbiz.orderfulfillment.order.OrderEvents" invoke="createFacilityLocation" auth="true" transaction-timeout="720000">
+        <attribute name="facilityId" type="String" mode="IN" optional="false"/>
+        <attribute name="areaId" mode="IN" type="String" optional="true"/>
+        
+        <attribute name="aisleCount" type="String" mode="IN" optional="true"/>
+        <attribute name="sectionCount" type="String" mode="IN" optional="true"/>
+        <attribute name="levelCount" type="String" mode="IN" optional="true"/>
+        <attribute name="binCount" mode="IN" type="String" optional="false"/>
+        
+        <attribute name="aisleStart" type="String" mode="IN" optional="true"/>
+        <attribute name="sectionStart" type="String" mode="IN" optional="true"/>
+        <attribute name="levelStart" type="String" mode="IN" optional="true"/>
+        <attribute name="binStart" mode="IN" type="String" optional="false"/>
+    </service>
+    
+    <service name="receiveInventoryToScrap" engine="java"
+            location="org.apache.ofbiz.orderfulfillment.inventory.InventoryServices" invoke="receiveInventoryToScrap" auth="true">
+        <attribute name="facilityId" type="String" mode="IN" optional="false"/>
+        <auto-attributes entity-name="InventoryItem" include="nonpk" mode="IN" optional="true">
+            <exclude field-name="availableToPromiseTotal"/>
+            <exclude field-name="quantityOnHandTotal"/>
+        </auto-attributes>
+        <auto-attributes entity-name="InventoryItemDetail" include="nonpk" mode="IN" optional="true"/>
+        <auto-attributes entity-name="ShipmentReceipt" include="nonpk" mode="IN" optional="true"/>
+        <attribute name="inventoryItemId" type="String" mode="OUT" optional="true"></attribute>
+        <attribute name="scrapLocationSeqId" type="String" mode="IN" optional="true"/>
+        <override name="quantityAccepted" optional="false"/>
+        <override name="quantityRejected" optional="false"/>
+        <override name="productId" optional="false"/>
+        <override name="facilityId" optional="false"/>
+    </service>
+    <service name="createSupplier" engine="java" auth="true" invoke="createSupplier" 
+        location="org.apache.ofbiz.orderfulfillment.supplier.SupplierServices" >
+        <description>Create Party Froup  And Identification</description>
+        <auto-attributes entity-name="PostalAddress" mode="IN" optional="true">
+            <exclude field-name="contactMechId"/>
+        </auto-attributes>
+        <auto-attributes entity-name="TelecomNumber" mode="IN" optional="true">
+           <exclude field-name="contactMechId"/>
+        </auto-attributes>
+        <auto-attributes entity-name="PartyContactMechPurpose" mode="IN" optional="true">
+            <exclude field-name="partyId"/>
+        </auto-attributes> 
+        <attribute name="partyId" mode="INOUT" type="String" optional="true"/>
+        <attribute name="groupName" mode="IN" type="String" optional="false"/>
+        <attribute name="USER_PANID" mode="IN" type="String" optional="true"/>
+        <attribute name="USER_SERVICETAXNUM" mode="IN" type="String" optional="true"/>
+        <attribute name="USER_TINNUM" mode="IN" type="String" optional="true"/> 
+        <attribute name="ADR_NUMBER" mode="IN" type="String" optional="true"/>
+        <attribute name="emailAddress" mode="IN" type="String" optional="true"></attribute>
+        <attribute name="state" mode="IN" type="String" optional="true"></attribute>
+        <attribute name="AltemailAddress" mode="IN" type="String" optional="true"></attribute>
+        <attribute name="mobileNumber" mode="IN" type="String" optional="true"></attribute>
+        <attribute name="sourceSeco" mode="IN" type="String" optional="true"></attribute> 
+        <attribute name="bankName" mode="IN" type="String" optional="true"/>
+        <attribute name="accName" mode="IN" type="String" optional="true"/>
+        <attribute name="accNo" mode="IN" type="String" optional="true"/>
+        <attribute name="branch" mode="IN" type="String" optional="true"/>
+        <attribute name="ifscCode" mode="IN" type="String" optional="true"/>
+        <attribute name="USER_GSTNO" mode="IN" type="String" optional="true"/>
+        
+    </service>
+    
+</services>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<simple-methods xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xsi:noNamespaceSchemaLocation="http://www.ofbiz.org/dtds/simple-methods.xsd">
+
+	<simple-method method-name="loadProductFileAndImages" short-description="Method to load product xls file and images.">
+        <if-empty field="parameters._productFile_fileName">
+            <set field="tempErrorMessage"  value="BlankProductFileError"/>
+            <string-to-list string="${tempErrorMessage}" message-field="_productFile_fileName" list="error_list"/>
+        </if-empty>
+        <if-not-empty field="parameters._productFile_fileName">
+            <call-object-method method-name="toUpperCase" obj-field="parameters._productFile_fileName" ret-field="productFileNameUpperCase"/>
+            <call-object-method method-name="endsWith" obj-field="productFileNameUpperCase" ret-field="isXLSFile">
+                <string value=".XLS"/>
+            </call-object-method>
+            <call-object-method method-name="endsWith" obj-field="productFileNameUpperCase" ret-field="isXMLFile">
+                <string value=".XML"/>
+            </call-object-method>
+            <if>
+                <condition>
+                    <and>
+                        <if-compare field="isXLSFile" operator="equals" value="false"/>
+                        <if-compare field="isXMLFile" operator="equals" value="false"/>
+                    </and>
+                </condition>
+                <then>
+                    <set  value="ProductFileNotXlsOrXmlError" field="tempErrorMessage"/>
+                    <string-to-list string="${tempErrorMessage}" message-field="_productFile_fileName" list="error_list"/>
+                </then>
+            </if>
+        </if-not-empty>
+        <check-errors/>
+        <set-service-fields service-name="uploadFile" map="parameters" to-map="uploadFileCtx"/>
+        <if-not-empty field="parameters._productFile_fileName">
+            <set field="uploadFileCtx.uploadedFile" from-field="parameters.productFile"/>
+            <set field="uploadFileCtx._uploadedFile_fileName" from-field="parameters._productFile_fileName"/>
+            <call-service service-name="uploadFile" in-map-name="uploadFileCtx">
+                <result-to-field result-name="uploadFileName" field="parameters.productFileName"/>
+                <result-to-field result-name="uploadFilePath" field="parameters.productFilePath"/>
+            </call-service>
+            <clear-field field="uploadFileCtx"/>
+        </if-not-empty>
+        
+        <field-to-result field="parameters.productFileName" result-name="uploadedXLSFile"/>
+        <field-to-result field="parameters.productFilePath" result-name="uploadedXLSPath"/>
+        <field-to-result field="parameters.productLoadImagesDir" result-name="productLoadImagesDir"/>
+        <log message="param after completion ${parameters}"></log>
+    </simple-method> 
+     <simple-method method-name="successMessage" short-description="Display success message when no error messages are found.">
+         <set field="errorMessageListSize" value="${groovy:if(parameters.errorMessageList != null)return(parameters.errorMessageList.size());}"  type="Integer" default-value="0"/>
+         <if-compare field="errorMessageListSize" operator="equals" value="0">
+            <if-empty field="parameters.successMessageList">
+                <set  value="UpdatedSuccess" field="defaultSuccessMessage"/>
+                <string-to-list string="${defaultSuccessMessage}" list="parameters.successMessageList"/>
+            </if-empty>
+             <field-to-result field="parameters.successMessageList" result-name="osafeSuccessMessageList"/>
+             <field-to-result field="parameters.warningMessageList" result-name="warningMessageList"/>
+         </if-compare>
+    </simple-method>   
+</simple-methods>

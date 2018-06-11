@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+	<SecurityGroup groupId="FULLADMIN" description="Full Admin"/>
+	<SecurityGroup groupId="FLEXADMIN" description="Flex Admin"/>
+	<SecurityGroup groupId="VIEWADMIN" description="View Admin"/>
+	<SecurityGroup groupId="BIZADMIN" description="Biz Admin"/>
+	
+    <SecurityGroupPermission groupId="FULLADMIN" permissionId="PRODUCTMASTER_ADMIN"/>
+    <SecurityGroupPermission groupId="FLEXADMIN" permissionId="PRODUCTMASTER_CREATE"/>
+    <SecurityGroupPermission groupId="FLEXADMIN" permissionId="PRODUCTMASTER_DELETE"/>
+    <SecurityGroupPermission groupId="FLEXADMIN" permissionId="PRODUCTMASTER_UPDATE"/>
+    <SecurityGroupPermission groupId="FLEXADMIN" permissionId="PRODUCTMASTER_VIEW"/>
+    <SecurityGroupPermission groupId="VIEWADMIN" permissionId="PRODUCTMASTER_VIEW"/>
+    <SecurityGroupPermission groupId="BIZADMIN" permissionId="PRODUCTMASTER_ADMIN"/>
+    
+    <SecurityGroupPermission groupId="SUPER" permissionId="PRODUCTMASTER_ADMIN"/>
+    <SecurityGroupPermission groupId="SUPER" permissionId="PRODUCTMASTER_CREATE"/>
+    <SecurityGroupPermission groupId="SUPER" permissionId="PRODUCTMASTER_DELETE"/>
+    <SecurityGroupPermission groupId="SUPER" permissionId="PRODUCTMASTER_UPDATE"/>
+    <SecurityGroupPermission groupId="SUPER" permissionId="PRODUCTMASTER_VIEW"/>
+    <SecurityGroupPermission groupId="SUPER" permissionId="PRODUCTMASTER_VIEW"/>
+    <SecurityGroupPermission groupId="SUPER" permissionId="PRODUCTMASTER_ADMIN"/>
+</entity-engine-xml>

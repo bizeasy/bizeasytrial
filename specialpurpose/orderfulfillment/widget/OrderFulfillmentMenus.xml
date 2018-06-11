@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Menu" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Menu http://ofbiz.apache.org/dtds/widget-menu.xsd">
+    <menu name="MainAppBar" title="${uiLabelMap.OrderFulfillmentApplication}" extends="CommonAppBarMenu" extends-resource="component://common/widget/CommonMenus.xml">
+        <menu-item name="main" title="${uiLabelMap.CommonMain}"><link target="main"/></menu-item>
+        <!-- <menu-item name="purchase" title="${uiLabelMap.Purchase}"><link target="main"/></menu-item> -->
+        <menu-item name="orderFulfillmentMasters" title="${uiLabelMap.OrderFulfillmentMasters}"><link target="OrderFulfillmentMasters"/></menu-item>
+    </menu>
+    <menu name="OrderFulfillmentMasterTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+          default-menu-item-name="OrderList">
+          <menu-item name="SalesOrdersUpload" title="Sales Orders Upload">
+          <link target="SalesOrdersUpload">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+          </menu-item>
+          <menu-item name="PrefixLocConfig" title="New Facility Loc">
+        	<link target="LocPrefixConfig">
+        	</link>
+          </menu-item>
+          <menu-item name="Facility" title="Facility">
+        	<link target="Facility">
+        	</link>
+          </menu-item>
+          <menu-item name="ProductStore" title="Product Store">
+        	<link target="ProductStore">
+        	</link>
+          </menu-item>
+          <menu-item name="Suppliers" title="Suppliers">
+        	<link target="CreateNewSupplier">
+        	</link>
+          </menu-item>
+    </menu>    
+    <menu name="SupplierTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+          default-menu-item-name="OrderList" selected-menuitem-context-field-name="tabButtonItem2">
+          
+          <menu-item name="FindSupplier" title="Find Supplier">
+		  	<link target="FindSupplier"/>
+		  </menu-item> 
+		  <menu-item name="NewSupplier" title="Create New Supplier">
+          	<link target="CreateNewSupplier">
+            </link>
+          </menu-item>
+    </menu> 
+    
+    <menu name="FacilityLocTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+          default-menu-item-name="OrderList" selected-menuitem-context-field-name="tabButtonItem2">
+          <menu-item name="prefixConfig" title="Prefix Configuration">
+          <link target="LocPrefixConfig">
+            </link>
+          </menu-item>
+          <menu-item name="FacilityLoc" title="New Facility Loc">
+        	<link target="NewFacilityLoc">
+        	</link>
+        </menu-item> 
+    </menu>    
+      
+    <menu name="OrderFulfillmentTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+          default-menu-item-name="OrderList">
+        <menu-item name="SalesOrderSearch" title="Order Search">
+            <link target="SalesOrderSearch">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="SalesOrder" title="Sales Orders">
+            <link target="OrderListing">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="PickList" title="Pick List">
+            <link target="PicklistOptions">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="Shipment" title="${uiLabelMap.Shipment}">
+            <link target="FindShipment">
+            	<parameter param-name="facilityId" />
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="ShipmentManifest" title="Shipment Manifest">
+            <link target="ShipmentsForManifest">
+            	<parameter param-name="facilityId" />
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="Invoices" title="Invoice">
+            <link target="findInvoices">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="WareHouseManagement" title="WareHouse Management">
+            <link target="WareHouseManagement">
+                <parameter param-name="facilityId"/>
+                <parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="PurchaseOrder" title="Purchase Orders">
+            <link target="FindPurchaseOrders">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        
+        <menu-item name="AirwayBills" title="Airway Bills">
+            <link target="FindAirwayBills">
+            </link>
+        </menu-item>
+        <menu-item name="Returns" title="Returns">
+            <link target="findreturn">
+            </link>
+        </menu-item>
+        <menu-item name="ReceivedItems" title="Received Items">
+            <link target="receivedItems">
+            </link>
+        </menu-item>
+        <menu-item name="RejectedItems" title="Rejected Items">
+            <link target="rejectedItems">
+            </link>
+        </menu-item>
+    </menu>
+    <menu name="WareHouseManagementTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+        selected-menuitem-context-field-name="tabButtonItem2">
+        <menu-item name="WareHouseManagement" title="WareHouse Management">
+            <link target="WareHouseManagement">
+                <parameter param-name="facilityId"/>
+                <parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="ViewFacilityInventoryByProd" title="${uiLabelMap.ProductInventory}">
+            <link target="ViewFacilityInventoryByProd">
+            <parameter param-name="facilityId" />
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="EditFacilityInventoryItems" title="${uiLabelMap.ProductInventoryItems}">
+            <link target="EditFacilityInventoryItems">
+                <parameter param-name="facilityId"/>
+                <parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="ViewFacilityInventoryItemsDetails" title="${uiLabelMap.ProductInventoryItemsDetails}">
+            <link target="ViewFacilityInventoryItemsDetails">
+                <parameter param-name="facilityId"/>
+                <parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="ReceiveInventory" title="${uiLabelMap.ReceiveInventory}">
+            <link target="ReceiveInventory">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="FindFacilityTransfers" title="${uiLabelMap.ProductInventoryXfers}">
+            <link target="FindFacilityTransfers">
+                <parameter param-name="facilityId" />
+                <parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="PhysicalInventory" title="${uiLabelMap.ProductPhysicalInventory}">
+            <link target="FindFacilityPhysicalInventory">
+                <parameter param-name="facilityId" />
+                <parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="PickMoveStock" title="${uiLabelMap.ProductStockMoves}">
+            <link target="PickMoveStock">
+                <parameter param-name="productStoreId"/>
+                <parameter param-name="facilityId"/>
+            </link>
+        </menu-item>
+    </menu>
+    <menu name="SalesOrderTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+        selected-menuitem-context-field-name="tabButtonItem2">
+        <menu-item name="CreateSalesOrder" title="Create SO">
+            <link target="CreateSalesOrder">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="SalesOrder" title="Find SO">
+            <link target="OrderListing">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+    </menu>
+    <menu name="PickListTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+        selected-menuitem-context-field-name="tabButtonItem2">
+        <menu-item name="PickListOptions" title="Pick List Options">
+            <link target="PicklistOptions">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="PicklistManage" title="Manage Pick List">
+            <link target="PicklistManage">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="VerifyPick" title="${uiLabelMap.VerifyPickList}">
+            <link target="VerifyPick">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+    </menu>
+    <menu name="PurchaseOrderTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+        selected-menuitem-context-field-name="tabButtonItem2">
+        <menu-item name="CreatePurchaseOrder" title="Create Purchase Order">
+            <link target="CreatePurchaseOrderScreen">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="PurchaseOrder" title="Find Purchase Order">
+            <link target="FindPurchaseOrders">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+    </menu>
+    <menu name="AirwayBillTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+        selected-menuitem-context-field-name="tabButtonItem2">
+        <menu-item name="AddAirwayBills" title="Add Airway Bills">
+            <link target="AddAirwayBills">
+            </link>
+        </menu-item>
+        <menu-item name="FindAirwayBills" title="Find AirwayBills">
+            <link target="FindAirwayBills">
+            </link>
+        </menu-item>
+    </menu>
+    <menu name="ReturnsTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+        selected-menuitem-context-field-name="tabButtonItem2">
+        <menu-item name="CreateSalesReturns" title="Create Sales Returns">
+            <link target="createSalesReturns">
+            </link>
+        </menu-item>
+        <menu-item name="FindReturns" title="Find Returns">
+            <link target="findreturn">
+            </link>
+        </menu-item>
+        <menu-item name="ReturnItems" title="Return Items">
+            <link target="returnItems">
+            	<parameter param-name="returnId"/>
+            </link>
+        </menu-item>
+        <menu-item name="ReceiveReturn" title="${uiLabelMap.ProductReceiveReturn}">
+            <link target="ReceiveReturn">
+                <parameter param-name="facilityId"/>
+            </link>
+        </menu-item>
+    </menu>
+    <menu name="ShipmentManifestTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+        selected-menuitem-context-field-name="tabButtonItem2">
+        <menu-item name="GenerateShipmentManifest" title="Generate Manifest">
+            <link target="ShipmentsForManifest">
+            </link>
+        </menu-item>
+        <menu-item name="ListShipmentManifest" title="List Manifests">
+            <link target="ListShipmentManifest">
+            </link>
+        </menu-item>
+    </menu>
+    <menu name="FacliityTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+        selected-menuitem-context-field-name="tabButtonItem2">
+        <menu-item name="CreateFaciilty" title="Create Facility">
+            <link target="CreateFacility">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+        <menu-item name="ListFacility" title="Find Facility">
+            <link target="ListFacility">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+    </menu>
+        <menu name="ProductStoreTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+        selected-menuitem-context-field-name="tabButtonItem2">
+        <menu-item name="CreateProductStore" title="Create Product Store">
+            <link target="CreateProductStore">
+            	
+            </link>
+        </menu-item>
+        <menu-item name="ListProductStore" title="Find Product Store">
+            <link target="ListProductStore">
+            	<parameter param-name="facilityId"/>
+            	<parameter param-name="productStoreId"/>
+            </link>
+        </menu-item>
+    </menu>
+</menus>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+    <SecurityPermission description="View operations in the Productmaster Component." permissionId="PRODUCTMASTER_VIEW"/>
+    <SecurityPermission description="Create operations in the Productmaster Component." permissionId="PRODUCTMASTER_CREATE"/>
+    <SecurityPermission description="Update operations in the Productmaster Component." permissionId="PRODUCTMASTER_UPDATE"/>
+    <SecurityPermission description="Delete operations in the Productmaster Component." permissionId="PRODUCTMASTER_DELETE"/>
+    <SecurityPermission description="ALL operations in the Productmaster Component." permissionId="PRODUCTMASTER_ADMIN"/>
+
+    <SecurityGroupPermission groupId="SUPER" permissionId="PRODUCTMASTER_ADMIN"/>
+
+</entity-engine-xml>

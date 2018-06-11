@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        
+      <screen name="OrderFulfillmentMasters">
+        <section>
+            <actions>
+                <set field="headerItem" value="main"/><!-- this highlights the selected menu-item with name "main" -->
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentMasterScreensDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="SalesOrdersUpload">
+        <section>
+            <actions>
+                <set field="headerItem" value="main"/>
+                <set field="tabButtonItem" value="SalesOrdersUpload" />
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentMasterScreensDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    <include-form location="component://orderfulfillment/widget/OrderFulfillmentMasterForms.xml" name="SalesOrderUpload"/>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="LocPrefixConfig">
+        <section>
+            <actions>
+                <set field="headerItem" value="main"/>
+                <set field="tabButtonItem" value="PrefixLocConfig" />
+                <set field="tabButtonItem2" value="prefixConfig" />
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentMasterScreensDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    <screenlet title="Location prefix configuration" >
+                    	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="FacilityLocTabBar"/>
+                    	<include-form location="component://orderfulfillment/widget/OrderFulfillmentMasterForms.xml" name="LocationPrefixConfig"/>
+                    </screenlet>
+                    
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="NewFacilityLoc">
+        <section>
+            <actions>
+                <set field="headerItem" value="main"/>
+                <set field="tabButtonItem" value="PrefixLocConfig" />
+                <set field="tabButtonItem2" value="FacilityLoc" />
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentMasterScreensDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                   <screenlet title="New Facility Creation"  >
+               		<container  >
+                   		<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="FacilityLocTabBar"/>
+                   		<include-form location="component://orderfulfillment/widget/OrderFulfillmentMasterForms.xml" name="NewFacilityLoc"/>	
+					</container>             
+                   </screenlet>
+                    
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="CreateFacility">
+        <section>
+            <actions>
+                <set field="headerItem" value="main"/>
+                <set field="tabButtonItem" value="Facility"/>
+                <set field="tabButtonItem2" value="CreateFaciilty"/>
+                <set field="titleProperty" value="ProductNewFacility"/>
+                <script location="component://product/groovyScripts/facility/facility/EditFacility.groovy"/>
+              
+            </actions>
+            <widgets>
+                <section>
+                    <condition>
+                        <not><if-empty field="facility"/></not>
+                    </condition>
+                    <actions>
+                        <set field="titleProperty" value="ProductEditFacility"/>
+                    </actions>
+                    <widgets>
+                        <decorator-screen name="OrderFulfillmentMasterScreensDecorator" location="${parameters.mainDecoratorLocation}">
+                            <decorator-section name="body">
+                            	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="FacliityTabBar"/>
+                                <section>
+                                    <condition>
+                                        <if-service-permission service-name="facilityGenericPermission" main-action="VIEW"/>
+                                    </condition>
+                                    <widgets>
+                                        <section>
+                                            <condition>
+                                                <not><if-empty field="facilityId"/></not>
+                                            </condition>
+                                            <widgets>
+                                                <container style="page-title">
+                                                    <label>${uiLabelMap.ProductEditFacility} ${facility.facilityName} [${facilityId}]</label>
+                                                </container>
+                                                <container style="button-bar button-style-1">
+                                                    <link target="/workeffort/control/calendar" text="${uiLabelMap.CommonViewCalendar}" url-mode="inter-app">
+                                                        <parameter param-name="facilityId"/>
+                                                        <parameter param-name="externalLoginKey" from-field="parameters.externalLoginKey"/>
+                                                    </link>
+                                                </container>
+                                                <platform-specific><html><html-template location="component://orderfulfillment/template/facility/CreateFacility.ftl"/></html></platform-specific>
+                                            </widgets>
+                                        </section>
+                                    </widgets>
+                                    <fail-widgets>
+                                        <label style="h3">${uiLabelMap.ProductFacilityViewPermissionError}</label>
+                                    </fail-widgets>
+                                </section>
+                            </decorator-section>
+                        </decorator-screen>
+                    </widgets>
+                    <fail-widgets>
+                        <decorator-screen name="OrderFulfillmentMasterScreensDecorator" location="${parameters.mainDecoratorLocation}">
+                            <decorator-section name="body">
+                            	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="FacliityTabBar"/>
+                                <section>
+                                    <condition>
+                                        <if-service-permission service-name="facilityGenericPermission" main-action="VIEW"/>
+                                    </condition>
+                                    <widgets>
+                                     <screenlet title="New Facility Creation"  >
+                                        <label style="h1">${uiLabelMap.ProductNewFacility}</label>
+                                        <platform-specific><html><html-template location="component://orderfulfillment/template/facility/CreateFacility.ftl"/></html></platform-specific>
+                                     </screenlet>
+                                     <!-- <screenlet title="Facility List"> 
+                                     	<include-form location="component://orderfulfillment/widget/OrderFulfillmentMasterForms.xml" name="ListFacility"/>
+                                     </screenlet> -->
+                                    </widgets>
+                                    <fail-widgets>
+                                        <label style="h3">${uiLabelMap.ProductFacilityViewPermissionError}</label>
+                                    </fail-widgets>
+                                </section>
+                            </decorator-section>
+                        </decorator-screen>
+                    </fail-widgets>
+                </section>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="ListFacility">
+       <section>
+            <actions>
+                <set field="titleProperty" value="Find Facility"/>
+                <set field="headerItem" value="main"/>
+                <set field="tabButtonItem" value="Facility"/>
+                <set field="tabButtonItem2" value="ListFacility"/>
+                <!-- <set field="labelTitleProperty" value="Find Facility"/> -->
+
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentMasterScreensDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="FacliityTabBar"/>
+	                        <screenlet title="Facility List">
+	                            <include-form location="component://orderfulfillment/widget/OrderFulfillmentMasterForms.xml" name="ListFacility"/>
+	                        </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+       </section>
+    </screen>
+    
+    <screen name="CreateProductStore">
+       <section>
+            <actions>
+                <set field="titleProperty" value="Create Product Store"/>
+                <set field="headerItem" value="main"/>
+                <set field="tabButtonItem" value="ProductStore"/>
+                <set field="tabButtonItem2" value="CreateProductStore"/>
+                <set field="labelTitleProperty" value="ProductStore"/>
+
+                <set field="productStoreId"  value=""/> 
+                <entity-one entity-name="ProductStore" value-field="productStore" auto-field-map="true"/>
+                <property-to-field field="defaultCurrencyUomId" resource="general" property="currency.uom.id.default" default="USD"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentMasterScreensMainDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="ProductStoreTabBar"/>
+	                        <screenlet title="${uiLabelMap.ProductProductStore}">
+	                            <include-form name="CreateProductStore" location="component://orderfulfillment/widget/OrderFulfillmentMasterForms.xml"/>
+	                        </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+       </section>
+    </screen>
+    <screen name="ListProductStore">
+       <section>
+            <actions>
+                <set field="titleProperty" value="Find Product Store"/>
+                <set field="headerItem" value="main"/>
+                <set field="tabButtonItem" value="ProductStore"/>
+                <set field="tabButtonItem2" value="ListProductStore"/>
+                <set field="labelTitleProperty" value="ProductStore"/>
+
+                <set field="productStoreId"  value=""/> 
+                <entity-one entity-name="ProductStore" value-field="productStore" auto-field-map="true"/>
+                <property-to-field field="defaultCurrencyUomId" resource="general" property="currency.uom.id.default" default="USD"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentMasterScreensMainDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                    	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="ProductStoreTabBar"/>
+	                        <screenlet title="${uiLabelMap.ProductProductStoreList}">
+	                            <include-form name="ListProductStore" location="component://orderfulfillment/widget/OrderFulfillmentMasterForms.xml"/>
+	                        </screenlet>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+       </section>
+    </screen>
+    <screen name="CreateNewSupplier">
+        <section>
+            <actions>
+                 <set field="titleProperty" value="Suppliers"/>
+                <set field="tabButtonItem" value="Suppliers"/>
+                <set field="tabButtonItem2" value="NewSupplier"/>
+                <set field="headerItem" value="Suppliers"/>
+                <set field="labelTitleProperty" value="PageTitleEditGroupInformation"/>
+                <set field="donePage" from-field="parameters.DONE_PAGE" default-value="viewprofile"/>
+                <set field="partyId" from-field="parameters.partyId"/>
+                <!-- <set field="layoutSettings.javaScripts[]" value="/materialmgmt/images/VendorValidations.js" global="true" /> -->
+                <entity-one entity-name="PartyAndGroup" value-field="partyGroup"/>
+                
+                 <entity-condition list="roleTypes"
+					entity-name="RoleType">
+					<condition-list combine="or">
+						<condition-expr field-name="roleTypeId" value="SUPPLIER" />
+					</condition-list>
+				</entity-condition>
+                <!-- <script location="component://depotsales/webapp/depotsales/WEB-INF/actions/facility/createNewWieverInfo.groovy" /> -->
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentMasterScreensMainDecorator" location="${parameters.mainDecoratorLocation}">
+                      <decorator-section name="body"> 
+                      	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="SupplierTabBar"/>  
+          					<platform-specific><html><html-template location="component://orderfulfillment/template/supplier/createSupplier.ftl"/></html></platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="FindSupplier">
+        <section>
+            <actions>
+                <set field="titleProperty" value="Find Supplier"/>
+                <set field="headerItem" value="Suppliers"/>
+                <set field="tabButtonItem" value="Suppliers"/>
+                <set field="tabButtonItem2" value="FindSupplier"/>
+                <service service-name="findParty" auto-field-map="parameters"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="OrderFulfillmentMasterScreensMainDecorator" location="${parameters.mainDecoratorLocation}">
+                      <decorator-section name="body">   
+                      	<include-menu location="component://orderfulfillment/widget/OrderFulfillmentMenus.xml" name="SupplierTabBar"/> 
+                      	<section>
+	                      	  <condition>
+	                             <if-compare operator="equals" field="isFormSubmitted" value=""/>
+	                         </condition>
+	                      		<widgets>
+	                      		<link target="CreateNewSupplier"  text="Create Supplier" style="buttontext" ></link>
+	           						<platform-specific>
+                                    <html><html-template location="component://orderfulfillment/template/supplier/findSupplier.ftl" />
+                                    </html>
+                                </platform-specific>
+	                      		</widgets>
+	                      		 <fail-widgets>
+                                <label style="h3" text="${uiLabelMap.PartyMgrViewPermissionError}"/>
+                            </fail-widgets>
+                      	</section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+        
+</screens>        

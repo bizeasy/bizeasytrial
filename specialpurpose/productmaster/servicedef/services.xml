@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/services.xsd">
+    <description>Productmaster Services</description>
+    <vendor></vendor>
+    <version>1.0</version>
+
+    <service name="noSyntaxError" engine="interface">
+        <description>
+            Dummy service to prevent empty files and syntax error - Remove when the 1st real service will be added here 
+        </description>
+    </service>
+     <service name="loadProductFileAndImages" engine="simple"
+            location="component://productmaster/script/com/palredErp/services/ProductAdminServices.xml " invoke="loadProductFileAndImages" auth="true" transaction-timeout="720000">
+        <attribute name="productFile" type="java.nio.ByteBuffer" mode="IN" optional="true"/>
+        <attribute name="_productFile_fileName" type="String" mode="IN" optional="true"/>
+        <attribute name="_productFile_contentType" type="String" mode="IN" optional="true"/>
+        
+        <attribute name="uploadedXLSFile" type="String" mode="OUT" optional="true"/>
+        <attribute name="uploadedXLSPath" type="String" mode="OUT" optional="true"/>
+        <attribute name="productLoadImagesDir" type="String" mode="OUT" optional="true"/>
+    </service> 
+    <service name="uploadFile" engine="java" location="com.palredErp.services.ProductAdminServices" invoke="uploadFile" auth="true" transaction-timeout="7200">
+        <description>Upload the file to runtime upload temp directory</description>
+        <implements service="uploadFileInterface"/>
+        <attribute name="uploadFileName" mode="OUT" type="String" optional="false"/>
+        <attribute name="uploadFilePath" mode="OUT" type="String" optional="false"/>
+    </service>
+    
+    <service name="loadProductDataGroup" engine="group" auth="false" transaction-timeout="720000">
+        <description>
+         Load the product data to database and render success message.
+        </description>
+        <group>
+            <invoke name="loadProductData" result-to-context="true"/>
+            <invoke name="successMessage" result-to-context="true"/>
+        </group>
+    </service>
+     <service name="commonFormHiddenFields" engine="interface" location="" invoke="">
+        <description>Interface service for common hidden fields</description>
+        <attribute name="productStoreId" type="String" mode="IN" optional="true"/>
+        <attribute name="browseRootProductCategoryId" type="String" mode="IN" optional="true"/>
+        <attribute name="preferredDateFormat" type="String" mode="IN" optional="true"/>
+        <attribute name="preferredDateTimeFormat" type="String" mode="IN" optional="true"/>
+        <attribute name="entryDateFormat" type="String" mode="IN" optional="true"/>
+        <attribute name="entryDateTimeFormat" type="String" mode="IN" optional="true"/>
+    </service>
+    <service name="loadProductData" engine="java"
+        location="com.palredErp.services.ProductAdminServices" invoke="loadProductDataToDB" auth="true" transaction-timeout="720000">
+        <description>Upload the product xls data to database</description>
+        <implements service="commonFormHiddenFields"/>
+        <attribute mode="IN" name="xlsFileName" optional="true" type="String"/>
+        <attribute mode="IN" name="xlsFilePath" optional="true" type="String"/>
+        <attribute mode="IN" name="productLoadImagesDir" optional="true" type="String"/>
+        <attribute name="imageUrl" type="String" mode="IN" optional="true"/>
+        <attribute mode="IN" name="errorExists" optional="true" type="String"/>
+    </service>
+    <service name="successMessage" engine="simple" auth="true"
+            location="component://productmaster/script/com/palrederp/services/ProductAdminServices.xml"
+            invoke="successMessage">
+        <description>
+            Generic Service to Render success message
+        </description>
+        <attribute name="errorMessageList" type="List" mode="IN" optional="true" />
+        <attribute name="successMessageList" type="List" mode="IN" optional="true" />
+        <attribute name="warningMessageList" type="List" mode="IN" optional="true" />
+        <attribute name="osafeSuccessMessageList" type="List" mode="OUT" optional="true" />
+        <attribute name="warningMessageList" type="List" mode="OUT" optional="true" />
+    </service>
+    <service name="importClientProductTemplate" engine="java" location="com.palredErp.services.ProductImportServices" invoke="importProductXls" auth="false" use-transaction="false">
+        <description>Import xls tabs, generate xml files in given directory using importDefinitionNames</description>
+        <attribute name="xlsDataFile" mode="IN" type="String" optional="false"/>
+        <attribute name="xmlDataDir" mode="IN" type="String" optional="false"/>
+        <attribute name="productStoreId" mode="IN" type="String" optional="false"/>
+        <attribute name="productLoadImagesDir" mode="IN" type="String" optional="true"/>
+        <attribute name="imageUrl" mode="IN" type="String" optional="true"/>
+        <attribute name="removeAll" mode="IN" type="Boolean" optional="true" />
+        <attribute name="autoLoad" mode="IN" type="Boolean" optional="true"/>
+        <attribute name="messages" type="List" mode="OUT" optional="false"/>
+    </service>
+    <service name="importClientProductXMLTemplate" engine="java" location="com.palredErp.services.ProductImportServices" invoke="importProductXML" auth="false" use-transaction="false">
+        <description>Import XML Elements, generate xml files in given directory using importDefinitionNames</description>
+        <attribute name="xmlDataFile" mode="IN" type="String" optional="false"/>
+        <attribute name="xmlDataDir" mode="IN" type="String" optional="false"/>
+        <attribute name="productStoreId" mode="IN" type="String" optional="true"/>
+        <attribute name="productLoadImagesDir" mode="IN" type="String" optional="true"/>
+        <attribute name="imageUrl" mode="IN" type="String" optional="true"/>
+        <attribute name="removeAll" mode="IN" type="Boolean" optional="true" />
+        <attribute name="autoLoad" mode="IN" type="Boolean" optional="true"/>
+        <attribute name="messages" type="List" mode="OUT" optional="true"/>
+    </service>
+</services>

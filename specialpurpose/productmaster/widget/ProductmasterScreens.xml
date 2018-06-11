@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
+
+    <screen name="main">
+        <section>
+            <actions>
+                <set field="headerItem" value="main"/><!-- this highlights the selected menu-item with name "main" -->
+                <set field="tabButtonItem" value="productImport"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="ProductmasterCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                   	<include-menu location="component://productmaster/widget/ProductmasterMenus.xml" name="productMasterMenu"/>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="productBulkupload">
+        <section>
+            <actions>
+                <set field="headerItem" value="main"/><!-- this highlights the selected menu-item with name "main" -->
+                <set field="tabButtonItem" value="productBulkupload"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="ProductmasterCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                   	<include-menu location="component://productmaster/widget/ProductmasterMenus.xml" name="productMasterMenu"/>
+                    </decorator-section>
+                </decorator-screen>
+                <screenlet title="Upload  File">
+                	<include-form location="component://productmaster/widget/ProductmasterForms.xml" name="uploadProductFile"/>
+                </screenlet>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="productBulkuploadPreview">
+        <section>
+            <actions>
+                <set field="headerItem" value="main"/><!-- this highlights the selected menu-item with name "main" -->
+                <set field="tabButtonItem" value="productBulkupload"/>
+                <script location="component://productmaster/groovyScripts/FileContents.groovy"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="ProductmasterCommonDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                   	<include-menu location="component://productmaster/widget/ProductmasterMenus.xml" name="productMasterMenu"/>
+                    </decorator-section>
+                </decorator-screen>
+                <screenlet title="Hello Preview">
+                	<label text="Hello  ${uploadedXLSFile}==============${uploadedXLSPath}============"/>
+                	<include-form location="component://productmaster/widget/ProductmasterForms.xml" name="uploadProductFilePreview"/>
+                </screenlet>
+            </widgets>
+        </section>
+    </screen>
+
+</screens>

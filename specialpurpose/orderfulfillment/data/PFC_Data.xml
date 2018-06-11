@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entity-engine-xml>
+
+	<Product productId="PFC001" productTypeId="FINISHED_GOOD" primaryProductCategoryId="101" productName="MicroTouch - Multi-Function Hair Trimmer" internalName="MicroTouch - Multi-Function Hair Trimmer" description="MicroTouch - Multi-Function Hair Trimmer" longDescription="MicroTouch - Multi-Function Hair Trimmer" taxable="Y" chargeShipping="Y" autoCreateKeywords="Y" isVirtual="" isVariant="" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductPrice productId="PFC001" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    <ProductPrice productId="PFC001" productPricePurposeId="PURCHASE" productPriceTypeId="LIST_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductFacility productId="PFC001" facilityId="DFC" minimumStock="0" />
+	<ProductCategoryMember productCategoryId="101" productId="PFC001" fromDate="2001-05-13 12:00:00.0" />
+	
+	<SupplierProduct partyId="DemoSupplier" minimumOrderQuantity="0" currencyUomId="INR" productId="PFC001" lastPrice="1500" supplierProductId="PFC001" availableFromDate="2005-01-01 00:00:00.000"/>
+    
+	<ProductCategoryMember productCategoryId="TAX_SLAB_28" productId="PFC001" fromDate="2001-05-13 12:00:00.0" />
+	
+	
+	
+	
+	<Product productId="PFC002" productTypeId="FINISHED_GOOD" primaryProductCategoryId="101" productName="MicroTouch - Multi-Function Hair Trimmer" internalName="MicroTouch - Multi-Function Hair Trimmer" description="MicroTouch - Multi-Function Hair Trimmer" longDescription="MicroTouch - Multi-Function Hair Trimmer" taxable="Y" chargeShipping="Y" autoCreateKeywords="Y" isVirtual="" isVariant="" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductPrice productId="PFC002" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    <ProductPrice productId="PFC002" productPricePurposeId="PURCHASE" productPriceTypeId="LIST_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductFacility productId="PFC002" facilityId="DFC" minimumStock="0" />
+	<ProductCategoryMember productCategoryId="101" productId="PFC002" fromDate="2001-05-13 12:00:00.0" />
+	
+	<SupplierProduct partyId="DemoSupplier" minimumOrderQuantity="0" currencyUomId="INR" productId="PFC002" lastPrice="1500" supplierProductId="PFC002" availableFromDate="2005-01-01 00:00:00.000"/>
+    
+	<ProductCategoryMember productCategoryId="TAX_SLAB_28" productId="PFC002" fromDate="2001-05-13 12:00:00.0" />
+	
+	
+	
+	
+	<Product productId="X000T14BX5" productTypeId="FINISHED_GOOD" primaryProductCategoryId="101" productName="Divinezon Micro Touch the all-in-one air Trimmer Remover" internalName="Divinezon Micro Touch the all-in-one air Trimmer Remover" description="Divinezon Micro Touch the all-in-one air Trimmer Remover" longDescription="Divinezon Micro Touch the all-in-one air Trimmer Remover" taxable="Y" chargeShipping="Y" autoCreateKeywords="Y" isVirtual="" isVariant="" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductPrice productId="X000T14BX5" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    <ProductPrice productId="X000T14BX5" productPricePurposeId="PURCHASE" productPriceTypeId="LIST_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductFacility productId="X000T14BX5" facilityId="DFC" minimumStock="0" />
+	<ProductCategoryMember productCategoryId="101" productId="X000T14BX5" fromDate="2001-05-13 12:00:00.0" />
+	
+	<SupplierProduct partyId="DemoSupplier" minimumOrderQuantity="0" currencyUomId="INR" productId="X000T14BX5" lastPrice="1500" supplierProductId="X000T14BX5" availableFromDate="2005-01-01 00:00:00.000"/>
+    
+	<ProductCategoryMember productCategoryId="TAX_SLAB_28" productId="X000T14BX5" fromDate="2001-05-13 12:00:00.0" />
+	
+	
+	
+	
+	<Product productId="X000T1478T" productTypeId="FINISHED_GOOD" primaryProductCategoryId="101" productName="Divinezon Max all-in-one Personal Trimmer For Men" internalName="Divinezon Max all-in-one Personal Trimmer For Men" description="Divinezon Max all-in-one Personal Trimmer For Men" longDescription="Divinezon Max all-in-one Personal Trimmer For Men" taxable="Y" chargeShipping="Y" autoCreateKeywords="Y" isVirtual="" isVariant="" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductPrice productId="X000T1478T" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    <ProductPrice productId="X000T1478T" productPricePurposeId="PURCHASE" productPriceTypeId="LIST_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductFacility productId="X000T1478T" facilityId="DFC" minimumStock="0" />
+	<ProductCategoryMember productCategoryId="101" productId="X000T1478T" fromDate="2001-05-13 12:00:00.0" />
+	
+	<SupplierProduct partyId="DemoSupplier" minimumOrderQuantity="0" currencyUomId="INR" productId="X000T1478T" lastPrice="1500" supplierProductId="X000T1478T" availableFromDate="2005-01-01 00:00:00.000"/>
+    
+	<ProductCategoryMember productCategoryId="TAX_SLAB_28" productId="X000T1478T" fromDate="2001-05-13 12:00:00.0" />
+	
+	
+	
+	
+	<Product productId="PFS01" productTypeId="FINISHED_GOOD" primaryProductCategoryId="101" productName="Relax - The Adjustable Desk" internalName="Relax - The Adjustable Desk" description="Relax - The Adjustable Desk" longDescription="Relax - The Adjustable Desk" taxable="Y" chargeShipping="Y" autoCreateKeywords="Y" isVirtual="" isVariant="" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductPrice productId="PFS01" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="4440" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    <ProductPrice productId="PFS01" productPricePurposeId="PURCHASE" productPriceTypeId="LIST_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="4440" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductFacility productId="PFS01" facilityId="DFC" minimumStock="0" />
+	<ProductCategoryMember productCategoryId="101" productId="PFS01" fromDate="2001-05-13 12:00:00.0" />
+	
+	<SupplierProduct partyId="DemoSupplier" minimumOrderQuantity="0" currencyUomId="INR" productId="PFS01" lastPrice="3000" supplierProductId="PFS01" availableFromDate="2005-01-01 00:00:00.000"/>
+    
+	<ProductCategoryMember productCategoryId="TAX_SLAB_12" productId="PFS01" fromDate="2001-05-13 12:00:00.0" />
+	
+	<Product autoCreateKeywords="Y" chargeShipping="Y" createdByUserLogin="admin" createdDate="2001-05-13 12:00:00.0" createdStamp="2018-05-16 15:19:25.0" createdTxStamp="2018-05-16 15:19:25.0" description="Relax - The Adjustable Desk" heightUomId="LEN_in" internalName="Relax - The Adjustable Desk" lastModifiedByUserLogin="admin" lastModifiedDate="2018-05-16 15:25:50.0" lastUpdatedStamp="2018-05-16 16:07:52.0" lastUpdatedTxStamp="2018-05-16 16:07:52.0" longDescription="Relax - The Adjustable Desk" originGeoId="USA" primaryProductCategoryId="101" productDepth="3.000000" productHeight="28.000000" productId="PFS01" productName="Relax - The Adjustable Desk" productTypeId="FINISHED_GOOD" productWeight="6.000000" productWidth="48.000000" shippingWeight="6.000000" taxable="Y" weightUomId="WT_kg"/>
+	
+	
+	
+	<Product requireInventory="N" autoCreateKeywords="Y" chargeShipping="Y" createdByUserLogin="admin" createdDate="2001-05-13 12:00:00.0" createdStamp="2018-05-16 15:19:25.0" createdTxStamp="2018-05-16 15:19:25.0" description="LifeTime Warrenty" heightUomId="LEN_in" internalName="LifeTime Warrenty" lastModifiedByUserLogin="admin" lastModifiedDate="2018-05-16 15:25:50.0" lastUpdatedStamp="2018-05-16 16:07:52.0" lastUpdatedTxStamp="2018-05-16 16:07:52.0" longDescription="LifeTime Warrenty" originGeoId="USA" primaryProductCategoryId="101" productDepth="0.000000" productHeight="0.000000" productId="PFSW01" productName="LifeTime Warrenty" productTypeId="SERVICE" productWeight="0.000000" productWidth="0.000000" shippingWeight="0.000000" taxable="Y" weightUomId="WT_kg"/>
+	<ProductPrice productId="PFSW01" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    <ProductPrice productId="PFSW01" productPricePurposeId="PURCHASE" productPriceTypeId="LIST_PRICE" currencyUomId="INR" productStoreGroupId="LOGISTICS_CLIENTS" fromDate="2001-05-13 12:00:00.0" price="2840" createdDate="2001-05-13 12:00:00.0" createdByUserLogin="admin" lastModifiedDate="2001-05-13 12:00:00.0" lastModifiedByUserLogin="admin"/>
+    
+    <ProductFacility productId="PFSW01" facilityId="DFC" minimumStock="0" />
+	<ProductCategoryMember productCategoryId="101" productId="PFSW01" fromDate="2001-05-13 12:00:00.0" />
+	
+	<SupplierProduct partyId="DemoSupplier" minimumOrderQuantity="0" currencyUomId="INR" productId="PFSW01" lastPrice="700" supplierProductId="PFSW01" availableFromDate="2005-01-01 00:00:00.000"/>
+    
+	<ProductCategoryMember productCategoryId="TAX_SLAB_28" productId="PFSW01" fromDate="2001-05-13 12:00:00.0" />
+	
+	<Product requireInventory="N" autoCreateKeywords="Y" chargeShipping="Y" createdByUserLogin="admin" createdDate="2001-05-13 12:00:00.0" createdStamp="2018-05-16 15:19:25.0" createdTxStamp="2018-05-16 15:19:25.0" description="Relax - The Adjustable Desk" heightUomId="LEN_in" internalName="Relax - The Adjustable Desk" lastModifiedByUserLogin="admin" lastModifiedDate="2018-05-16 15:25:50.0" lastUpdatedStamp="2018-05-16 16:07:52.0" lastUpdatedTxStamp="2018-05-16 16:07:52.0" longDescription="Relax - The Adjustable Desk" originGeoId="USA" primaryProductCategoryId="101" productDepth="3.000000" productHeight="28.000000" productId="	" productName="Relax - The Adjustable Desk" productTypeId="FINISHED_GOOD" productWeight="6.000000" productWidth="48.000000" shippingWeight="6.000000" taxable="Y" weightUomId="WT_kg"/>
+	
+	
+</entity-engine-xml>

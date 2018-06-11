@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+    <SecurityGroupPermission groupId="FULLADMIN" permissionId="ORDERFULFILLMENT_ADMIN"/>
+    <SecurityGroupPermission groupId="FLEXADMIN" permissionId="ORDERFULFILLMENT_CREATE"/>
+    <SecurityGroupPermission groupId="FLEXADMIN" permissionId="ORDERFULFILLMENT_DELETE"/>
+    <SecurityGroupPermission groupId="FLEXADMIN" permissionId="ORDERFULFILLMENT_UPDATE"/>
+    <SecurityGroupPermission groupId="FLEXADMIN" permissionId="ORDERFULFILLMENT_VIEW"/>
+    <SecurityGroupPermission groupId="VIEWADMIN" permissionId="ORDERFULFILLMENT_VIEW"/>
+    <SecurityGroupPermission groupId="BIZADMIN" permissionId="ORDERFULFILLMENT_ADMIN"/>
+</entity-engine-xml>

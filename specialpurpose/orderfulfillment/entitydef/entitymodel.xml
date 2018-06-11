@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/entitymodel.xsd">
+    <!-- ========================================================= -->
+    <!-- ======================== Defaults ======================= -->
+    <!-- ========================================================= -->
+    <title>Entity of OrderFulfillment Component</title>
+    <description>None</description>
+    <copyright></copyright>
+    <version></version>
+	
+	<entity entity-name="Printer" package-name="org.apache.ofbiz.product.facility" title="Printer Entity">
+        <field name="printerId" type="id-ne"></field>
+        <field name="printerTypeId" type="id"></field>
+        <field name="printerName" type="name"></field>
+        <field name="printerIp" type="id-ne"/>
+        <field name="printSize" type="id-ne"/>
+        <prim-key field="printerId"/>
+    </entity>
+    <!-- <entity entity-name="PrintDocument" package-name="org.apache.ofbiz.product.facility" title="Print Document Entity">
+        <field name="documentId" type="id-ne"></field>
+        <field name="documentType" type="id"></field>
+        <field name="documentName" type="name"></field>
+        <field name="documentSize" type="id"></field>
+        <field name="mimeType" type="id-ne"/>
+        <prim-key field="documentId"/>
+    </entity> -->
+    <entity entity-name="FacilityPrinter" package-name="org.apache.ofbiz.product.facility" title="Facility Printer Entity">
+        <field name="facilityId" type="id-ne"></field>
+        <field name="printerId" type="id-ne"></field>
+        <field name="documentId" type="id-ne"></field>
+        <prim-key field="facilityId"/>
+        <prim-key field="printerId"/>
+        <prim-key field="documentId"/>
+        <relation type="one" fk-name="FACILITY_PRT_FAC" rel-entity-name="Facility">
+            <key-map field-name="facilityId"/>
+        </relation>
+        <relation type="one" fk-name="FACILITY_PRT_PRT" title="Type" rel-entity-name="Printer">
+            <key-map field-name="printerId"/>
+        </relation>
+	    <relation type="one" fk-name="FACILITY_PRT_DOC" title="Type" rel-entity-name="Document">
+            <key-map field-name="documentId"/>
+        </relation>      
+    </entity>
+
+	<view-entity entity-name="FacilityPrinterAndPrinterAndDocument" package-name="org.apache.ofbiz.product.facility"  title="Facility Printer and Printer and Document View Entity">
+      <member-entity entity-alias="FP" entity-name="FacilityPrinter"/>
+      <member-entity entity-alias="PR" entity-name="Printer"/>
+      <member-entity entity-alias="DOC" entity-name="Document"/>
+      <alias-all entity-alias="FP"/>
+      <alias entity-alias="PR" name="printerName"/>
+      <alias entity-alias="PR" name="printerIp"/>
+      <alias entity-alias="DOC" name="comments"/>
+      <alias entity-alias="DOC" name="documentLocation"/>
+      <view-link entity-alias="FP" rel-entity-alias="PR">
+        <key-map field-name="printerId"/>
+      </view-link>
+      <view-link entity-alias="FP" rel-entity-alias="DOC">
+        <key-map field-name="documentId"/>
+      </view-link>
+    </view-entity>
+    
+    <view-entity entity-name="OrderShipmentAndShipment" package-name="org.apache.ofbiz.order.shipment"  title="Order Shipment and Shipment View Entity">
+      <member-entity entity-alias="OS" entity-name="OrderShipment"/>
+      <member-entity entity-alias="SP" entity-name="Shipment"/>
+      <alias-all entity-alias="SP"/>
+      <alias entity-alias="OS" name="orderId"/>
+      <alias entity-alias="OS" name="orderItemSeqId"/>
+      <view-link entity-alias="OS" rel-entity-alias="SP">
+        <key-map field-name="shipmentId"/>
+      </view-link>
+    </view-entity>
+    <view-entity entity-name="OrderShipmentAndShipGroup" package-name="org.apache.ofbiz.order.shipment"  title="Order Shipment and Shipment and ShipGroup View Entity">
+      <member-entity entity-alias="OS" entity-name="OrderShipment"/>
+      <member-entity entity-alias="SH" entity-name="Shipment"/>
+      <member-entity entity-alias="SG" entity-name="OrderItemShipGroup"/>
+      <alias-all entity-alias="SH"/>
+      <alias entity-alias="OS" name="orderId"/>
+      <alias entity-alias="OS" name="orderItemSeqId"/>
+      <alias entity-alias="SG" name="shipGroupSeqId"/>
+      <alias entity-alias="SG" name="shipmentMethodTypeId"/>
+      <alias entity-alias="SG" name="carrierPartyId"/>
+      <alias entity-alias="SG" name="facilityId"/>
+      <alias entity-alias="SG" name="trackingNumber"/>
+      
+      <view-link entity-alias="OS" rel-entity-alias="SH">
+        <key-map field-name="shipmentId"/>
+      </view-link>
+      <view-link entity-alias="OS" rel-entity-alias="SG">
+        <key-map field-name="orderId"/>
+        <key-map field-name="shipGroupSeqId"/>
+      </view-link>
+    </view-entity>
+    <view-entity entity-name="OrderShipmentAndShipGroupAndOrderItemAndShipmentManifestItems" package-name="org.apache.ofbiz.order.shipment"
+      title="Order Shipment and Shipment and ShipGroup and OrderItem and ShipmentManifestItems View Entity">
+      <member-entity entity-alias="OS" entity-name="OrderShipment"/>
+      <member-entity entity-alias="SH" entity-name="Shipment"/>
+      <member-entity entity-alias="SG" entity-name="OrderItemShipGroup"/>
+      <member-entity entity-alias="OI" entity-name="OrderItem"/>
+      <member-entity entity-alias="SMI" entity-name="ShipmentManifestItems"/>
+      <member-entity entity-alias="OH" entity-name="OrderHeader"/>
+      <alias-all entity-alias="SH"/>
+      <alias entity-alias="OS" name="orderId"/>
+      <alias entity-alias="OS" name="orderItemSeqId"/>
+      <alias entity-alias="SG" name="shipGroupSeqId"/>
+      <alias entity-alias="SG" name="shipmentMethodTypeId"/>
+      <alias entity-alias="SG" name="carrierPartyId"/>
+      <alias entity-alias="SG" name="facilityId"/>
+      <alias entity-alias="SG" name="trackingNumber"/>
+      <alias entity-alias="OI" name="orderItemSeqId"/>
+      <alias entity-alias="OI" name="quantity"/>
+      <alias entity-alias="OI" name="productId"/>
+      <alias entity-alias="OI" name="unitPrice"/>
+      <alias entity-alias="OI" name="unitListPrice"/>
+      <alias entity-alias="OI" name="itemDescription"/>
+      <alias entity-alias="SMI" name="manifestId"/>
+      <alias entity-alias="OH" name="externalId"/>
+      <view-link entity-alias="OS" rel-entity-alias="SH">
+        <key-map field-name="shipmentId"/>
+      </view-link>
+      <view-link entity-alias="OS" rel-entity-alias="SG">
+        <key-map field-name="orderId"/>
+        <key-map field-name="shipGroupSeqId"/>
+      </view-link>
+      <view-link entity-alias="OS" rel-entity-alias="OI">
+        <key-map field-name="orderId"/>
+        <key-map field-name="orderItemSeqId"/>
+      </view-link>
+      <view-link entity-alias="OI" rel-entity-alias="OH">
+        <key-map field-name="orderId"/>
+      </view-link>
+      <view-link entity-alias="SH" rel-entity-alias="SMI">
+        <key-map field-name="shipmentId"/>
+      </view-link>
+    </view-entity>
+    <entity entity-name="ShipmentManifest" package-name="org.apache.ofbiz.product.facility" title="Shipment Manifest Entity">
+        <field name="manifestId" type="id-ne"></field>
+        <field name="carrierId" type="id"></field>
+        <field name="generatedDate" type="date-time"></field>
+        <field name="statusId" type="id"></field>
+        <!-- <field name="facilityId" type="id"></field>
+      	<field name="productStoreId" type="id"></field> -->
+      	<field name="createdBy" type="id-vlong"></field>
+        <prim-key field="manifestId"/>
+        <relation type="one" fk-name="SH_MAN_OFAC" rel-entity-name="Facility">
+	        <key-map field-name="facilityId"/>
+	    </relation>
+      	<relation type="one" fk-name="SH_MAN_PDSTR" rel-entity-name="ProductStore">
+        	<key-map field-name="productStoreId"/>
+      	</relation>
+    </entity>
+    
+    <entity entity-name="ShipmentManifestItems" package-name="org.apache.ofbiz.product.facility" title="Shipment Manifest Item Entity">
+        <field name="manifestId" type="id-ne"></field>
+        <field name="manifestItemSeqId" type="id-ne"></field>
+        <field name="shipmentId" type="id"></field>
+        <field name="statusId" type="id"></field>
+        <prim-key field="manifestId"/>
+        <prim-key field="manifestItemSeqId"/>
+        <relation type="one" fk-name="SH_MAN_ITM" rel-entity-name="ShipmentManifest">
+	        <key-map field-name="manifestId"/>
+	    </relation>
+    </entity>
+    
+</entitymodel>

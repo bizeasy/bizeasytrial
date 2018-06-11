@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
+	<form name="uploadProductFile" target="productBulkuploadPreview" type="upload">
+		<field name="productFile" required-field="true" ><file/></field>
+		<field name="submit" title="Submit"> <submit/></field>
+	</form>
+	<form name="uploadProductFilePreview" target="loadProductData" type="upload">
+		<field name="xlsFileName" ><hidden value="${parameters.xlsFileName}"/></field>
+		<field name="xlsFilePath" ><hidden value="${parameters.uploadedXLSPath}"/></field>
+		<field name="submit" title="Submit"> <submit/></field>
+	</form>
+
+</forms>

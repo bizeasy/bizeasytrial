@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+    <SecurityPermission description="View operations in the OrderFulfillment Component." permissionId="ORDERFULFILLMENT_VIEW"/>
+    <SecurityPermission description="Create operations in the OrderFulfillment Component." permissionId="ORDERFULFILLMENT_CREATE"/>
+    <SecurityPermission description="Update operations in the OrderFulfillment Component." permissionId="ORDERFULFILLMENT_UPDATE"/>
+    <SecurityPermission description="Delete operations in the OrderFulfillment Component." permissionId="ORDERFULFILLMENT_DELETE"/>
+    <SecurityPermission description="ALL operations in the OrderFulfillment Component." permissionId="ORDERFULFILLMENT_ADMIN"/>
+
+    <SecurityGroupPermission groupId="SUPER" permissionId="ORDERFULFILLMENT_ADMIN"/>
+
+</entity-engine-xml>
